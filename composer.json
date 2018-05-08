@@ -1,0 +1,12 @@
+{
+    "name": "waifulogics/itconnection",
+    "description": "A thing that connects it people",
+    "type": "project",
+    "require": {
+        "slim/twig-view": "^2.4",
+		"twig/twig": "^2.0",
+		"slim/slim" "^3.0"
+    },
+    "license": "MIT",
+    "minimum-stability": "dev"
+}
