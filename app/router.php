@@ -27,22 +27,26 @@ $app->group('/register', function () {
             ]);
             $this->database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             if ($stmnt->rowCount() == 0) {
+                /*Register Variables*/
                 $username = $_POST['register-username'];
                 $email = $_POST['register-email'];
                 $password = password_hash($_POST['register-password'], PASSWORD_BCRYPT);
                 $userId = "user_" . rand(-1000, 1000);
                 /*Timestamp when the mail is sent*/
                 $time = date("Y/m/d h:i:s");
+                /*Generate the authorization code*/
                 $authCode = rand(0, 5000);
 
+                /*Raw JSON data of the auth JSON object*/
                 $authRaw = [
                     'name' => $username,
                     'password' => $password,
                     'time' => $time,
                     'code' => $authCode
                 ];
+
+                /*JSON object that gets inserted in the database*/
                 $auth = json_encode($authRaw);
-                echo $auth;
 
                 /*Mail Details*/
                 $to = $email;
@@ -53,6 +57,7 @@ $app->group('/register', function () {
                 /*Send the mail*/
                 mail($to, $subject, $txt, $headers);
 
+                /*Insert the authorization details in the database with PDO*/
                 $stmt = $this->database->prepare("INSERT INTO authorization
           (auth_code, auth_json, auth_user, auth_time) VALUES(:code, :json, :user, :t)");
                 /*Execute the statement and bind the params in it*/
@@ -70,8 +75,10 @@ $app->group('/register', function () {
                     'id' => $userId,
                     'email' => $email
                 ]);
+                /*Redirect the user*/
                 return $response->withRedirect('/thanks', 301);
             } else {
+                /*Redirect the user*/
                 return $response->withRedirect('/error', 301);
             }
         }
