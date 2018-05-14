@@ -30,4 +30,14 @@ $container['view'] = function ($c) {
     return $view;
 };
 
+$container['database'] = function($c) {
+  /*Database connection information*/
+  $servername = "localhost";
+  $username = "root";
+  $password = "";
+  $dbname = "it_connection";
+
+  return new PDO("mysql:host=$servername;dbname=$dbname",$username, $password);
+};
+
 require(__DIR__ . '/router.php');
