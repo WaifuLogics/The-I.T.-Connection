@@ -1,0 +1,17 @@
+{% extends 'templates/base.twig'%}
+
+{% block container %}
+<div class="container">
+  <form class="col s8" action="{{ path_for('authorization') }}" method="post">
+    <h3>Authorization</h3>
+    <div class="input-field s3">
+      <input id="email" type="email" class="validate">
+      <label for="email">Email Adress</label>
+    </div>
+    <div class="input-field s3">
+      <input id="code" type="text" class="validate">
+      <label for="code">Authorization Code</label>
+    </div>
+  </form>
+</div>
+{% endblock %}

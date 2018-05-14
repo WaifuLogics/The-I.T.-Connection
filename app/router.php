@@ -37,17 +37,6 @@ $app->group('/register', function () {
                 /*Generate the authorization code*/
                 $authCode = rand(0, 5000);
 
-                /*Raw JSON data of the auth JSON object*/
-                $authRaw = [
-                    'name' => $username,
-                    'password' => $password,
-                    'time' => $time,
-                    'code' => $authCode
-                ];
-
-                /*JSON object that gets inserted in the database*/
-                $auth = json_encode($authRaw);
-
                 /*Mail Details*/
                 $to = $email;
                 $subject = "The I.T. Connection Authorization Code";
@@ -59,11 +48,11 @@ $app->group('/register', function () {
 
                 /*Insert the authorization details in the database with PDO*/
                 $stmt = $this->database->prepare("INSERT INTO authorization
-          (auth_code, auth_json, auth_user, auth_time) VALUES(:code, :json, :user, :t)");
+          (auth_code, auth_user, user_password, auth_time) VALUES(:code, :user, :pass,:t)");
                 /*Execute the statement and bind the params in it*/
                 $stmt->execute([
                     'code' => $authCode,
-                    'json' => $auth,
+                    'pass' => $password,
                     'user' => $userId,
                     't' => $time
                 ]);
@@ -93,3 +82,7 @@ $app->get('/thanks', function (Request $request, Response $response, $args) {
 $app->get('/error', function (Request $request, Response $response, $args) {
     return $this->view->render($response, 'error.twig', []);
 })->setName('error');
+
+$app->get('/authorization', function (Request $request, Response $response, $args) {
+    return $this->view->render($response, 'authorization.twig', []);
+})->setName('authorization');
