@@ -6,13 +6,13 @@
   <!--Login-->
   <div class="col s6">
     <h5>Login</h5>
-    <form class="" action="{{ path_for('register') }}" method="post">
+    <form class="" action="{{ path_for('login') }}" method="post">
       <div class="input-field">
-        <input placeholder="example@example.com" id="email" type="text" class="validate" required>
+        <input placeholder="" id="email" type="email" class="validate" required name="login-email" value="">
         <label for="email">E-mail Address</label>
       </div>
       <div class="input-field">
-        <input placeholder="Password" id="password" type="password" class="validate" required>
+        <input placeholder="Password" id="password" type="password" class="validate" required name="login-pass" value="">
         <label for="password">Password</label>
       </div>
       <input class="waves-light waves-light btn" type="submit" value="Submit">

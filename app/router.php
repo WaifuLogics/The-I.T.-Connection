@@ -78,7 +78,20 @@ $app->group('/register', function () {
 });
 
 $app->post('/login', function ($request, $response, $args) {
-    $stmnt = $this->database->prepare(" c  c");
+    $stmnt = $this->database->prepare("SELECT account_id, account_name, user_email, user_password NATURAL JOIN users 
+                                       FROM accounts WHERE user_email = :email");
+    $stmnt->execute(['email' => $_POST['login-email']]);
+    $data = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+    if (count($data) > 0) {
+        foreach ($data as $d) {
+            if(password_verify($_POST['login-pass'], $d['user_password'])){
+                $_SESSION['user_name'] = $d['account_name'];
+                $_SESSION['user_key'] = $d['account_id'];
+                return $response->withRedirect($this->router->pathFor('home'));
+            }
+        }
+    }
+
 })->setName('login');
 
 $app->get('/thanks', function (Request $request, Response $response, $args) {
@@ -134,10 +147,10 @@ $app->group('/authorization', function () {
                     }
 
                 }
-            }else{
+            } else {
                 return $response->withRedirect($this->router->pathFor('error'));
             }
-        }else{
+        } else {
             return $response->withRedirect($this->router->pathFor('error'));
         }
 
