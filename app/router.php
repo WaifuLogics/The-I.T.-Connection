@@ -76,7 +76,8 @@ $app->group('/register', function () {
 });
 
 $app->get('/thanks', function (Request $request, Response $response, $args) {
-    return $this->view->render($response, 'thanks.twig', []);
+    var_dump($request);
+//    return $this->view->render($response, 'thanks.twig', []);
 })->setName('thanks');
 
 $app->get('/error', function (Request $request, Response $response, $args) {
