@@ -1,5 +1,30 @@
 {% extends 'templates/base.twig'%}
 
 {% block container %}
-    <img src="img/homepage.png" alt="homepage" style="width: 100vw; height: 100vh;">
+    <!--Title-->
+    <div class="section">
+        <div class="row">
+            <div class="col s12">
+                <h1>The IT Connection</h1>
+            </div>
+        </div>
+        <div class="divider"></div>
+    </div>
+
+    <!--Content-->
+    <div class="section">
+        <div class="row">
+            <!--Paragraph-->
+            <div class="col s8">
+                <p>Here at The IT Connection we strive to give people working in the IT sector a reliable place to interact and work together.</p>
+                <p>Sign up today to join our community of hardworking managers, developers and hobbyists.</p>
+            </div>
+            <!--Sign Up-->
+            <div class="col s4">
+                <a class="waves-effect waves-light btn">Sign Up!</a>
+                <span>or</span>
+                <a class="waves-effect waves-light btn">Login</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
