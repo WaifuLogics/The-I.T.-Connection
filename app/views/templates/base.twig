@@ -12,9 +12,12 @@
   </head>
 
   <body>
+  {#The block body is here for when you don't want he container#}
+  {% block body %}
     <div class="container">
       {% block container %}{% endblock %}
     </div>
+  {% endblock %}
     <!--Materialize-->
     <script src="/framework/materialize/js/materialize.min.js" type="text/javascript"></script>
   </body>
