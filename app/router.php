@@ -5,12 +5,14 @@ use Slim\Http\{
 };
 
 $app->get('/', function (Request $request, Response $response, $args) {
-    return $this->view->render($response, 'home.twig', [
-        //an array of variables that can be used in twig
-        'color' => 'Jemoeder',
-        'name' => 'Guylian',
-        'items' => array_merge(range('A', 'Z'), range('a', 'z'))
-    ]);
+
+    var_dump($_SESSION);
+    if(isset($_SESSION['user_name']) && isset($_SESSION['user_key'])){
+        return $this->view->render($response, 'homepage.twig');
+    }else{
+        return $this->view->render($response, 'home.twig', []);
+    }
+
 })->setName('home');
 
 $app->group('/register', function () {
@@ -78,21 +80,33 @@ $app->group('/register', function () {
 });
 
 $app->post('/login', function ($request, $response, $args) {
-    $stmnt = $this->database->prepare("SELECT account_id, account_name, user_email, user_password NATURAL JOIN users 
-                                       FROM accounts WHERE user_email = :email");
+    $stmnt = $this->database->prepare("SELECT account_id, account_name, user_email, user_password
+                                       FROM accounts NATURAL JOIN users WHERE user_email = :email");
     $stmnt->execute(['email' => $_POST['login-email']]);
     $data = $stmnt->fetchAll(PDO::FETCH_ASSOC);
     if (count($data) > 0) {
         foreach ($data as $d) {
-            if(password_verify($_POST['login-pass'], $d['user_password'])){
+            if (password_verify($_POST['login-pass'], $d['user_password'])) {
                 $_SESSION['user_name'] = $d['account_name'];
                 $_SESSION['user_key'] = $d['account_id'];
                 return $response->withRedirect($this->router->pathFor('home'));
+            } else {
+                $_SESSION['error'] = "user-crednotcorrect";
+                return $response->withRedirect($this->router->pathFor('home'));
             }
         }
+    } else {
+        $_SESSION['error'] = "user-notexist";
+        return $response->withRedirect($this->router->pathFor('home'));
     }
 
 })->setName('login');
+
+$app->get('/logout', function ($request, $response, $args) {
+    unset($_SESSION['user_name']);
+    unset($_SESSION['user_key']);
+    return $response->withRedirect($this->router->pathFor('home'));
+})->setName('logout');
 
 $app->get('/thanks', function (Request $request, Response $response, $args) {
     return $this->view->render($response, 'thanks.twig', []);
@@ -115,7 +129,7 @@ $app->group('/authorization', function () {
         ]);
 
         if ($stmnt->rowCount() > 0) {
-            $stmnt = $this->database->prepare("SELECT auth_code, auth_user, auth_username, user_password, auth_time 
+            $stmnt = $this->database->prepare("SELECT auth_code, auth_user, auth_username, user_password, auth_time
                                            FROM authorization WHERE auth_code = :code");
             $stmnt->execute([
                 'code' => $_POST['auth-code']
@@ -125,7 +139,7 @@ $app->group('/authorization', function () {
                 foreach ($data as $d) {
                     if (password_verify($_POST['auth-pass'], $d['user_password'])) {
                         $stmnt = $this->database->prepare("
-                                              INSERT INTO accounts (account_id, account_name, user_id, user_password) 
+                                              INSERT INTO accounts (account_id, account_name, user_id, user_password)
                                               VALUES (:accid, :accname, :userid, :userpass)
                                               ");
                         $accountId = "account_" . rand(-1000, -1000);
@@ -156,3 +170,10 @@ $app->group('/authorization', function () {
 
     });
 });
+
+/* --- Functions --- */
+function CheckLoginStatus(){
+    if(!isset($_SESSION['user_name']) OR !isset($_SESSION['user_key']) OR !isset($_SESSION['user_name']) && !isset($_SESSION['user_key'])){
+        return $response->withRedirect($this->router->pathFor('Home'));
+    }
+}

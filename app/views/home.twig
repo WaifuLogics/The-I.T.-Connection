@@ -1,7 +1,7 @@
 {% extends 'templates/base.twig'%}
 
 {% block container %}
-    <!--Title-->
+    <!-- Nav Title -->
     <div class="section">
         <div class="row">
             <div class="col s12">
@@ -21,9 +21,9 @@
             </div>
             <!--Sign Up-->
             <div class="col s4">
-                <a class="waves-effect waves-light btn">Sign Up!</a>
+                <a class="waves-effect waves-light btn" href="{{ path_for('register') }}">Login / Register</a>
                 <span>or</span>
-                <a class="waves-effect waves-light btn">Login</a>
+                <a class="waves-effect waves-light btn" href="{{ path_for('authorization') }}">Authorize</a>
             </div>
         </div>
     </div>
