@@ -5,11 +5,9 @@ use Slim\Http\{
 };
 
 $app->get('/', function (Request $request, Response $response, $args) {
-
-    var_dump($_SESSION);
-    if(isset($_SESSION['user_name']) && isset($_SESSION['user_key'])){
+    if (isset($_SESSION['user_name']) && isset($_SESSION['user_key'])) {
         return $this->view->render($response, 'homepage.twig');
-    }else{
+    } else {
         return $this->view->render($response, 'home.twig', []);
     }
 
@@ -172,8 +170,9 @@ $app->group('/authorization', function () {
 });
 
 /* --- Functions --- */
-function CheckLoginStatus(){
-    if(!isset($_SESSION['user_name']) OR !isset($_SESSION['user_key']) OR !isset($_SESSION['user_name']) && !isset($_SESSION['user_key'])){
+function CheckLoginStatus()
+{
+    if (!isset($_SESSION['user_name']) OR !isset($_SESSION['user_key']) OR !isset($_SESSION['user_name']) && !isset($_SESSION['user_key'])) {
         return $response->withRedirect($this->router->pathFor('Home'));
     }
 }
