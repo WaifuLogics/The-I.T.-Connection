@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<!--Head-->
+
+<head>
+  <meta charset="utf-8">
+  <title>The I.T. Connection</title>
+  <!--Materialize-->
+  <link href="framework/materialize/css/materialize.min.css" rel="stylesheet" type="text/css">
+  <!--Animate.css-->
+  <link href="framework/animate.css" rel="stylesheet" type="text/css">
+  <!--Styletag for Guylian <3-->
+  <style>
+    #chatWrap {
+      height: 75vh;
+    }
+
+    .otherMessage {
+      background-color: rgb(54, 107, 142);
+    }
+
+    .ownMessage {
+      background-color: rgb(102, 169, 194);
+    }
+
+    #activeUsers {
+      background-color: #9F9F9F;
+      height: 100vh;
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <div class="">
+    <!--Main Page Row-->
+    <div class="row">
+
+      <!--Main chatroom-->
+      <div class="col s10">
+        <h2>Chatroom Name</h2>
+        <div class="divider"></div>
+        <div id="chatWrap">
+
+          <!--Create new rows for every message... fugg-->
+          <div class="row">
+            <!--if own message use right col, if not use left col-->
+            <div class="col s6 otherMessage">
+              <div class="row">
+                <div class="col s2">
+                  <img src="" alt="Other User's Avatar">
+                </div>
+                <div class="col s10">
+                  <h5>Username</h5>
+                  <p>message</p>
+                  <span>Timestamp</span>
+                </div>
+              </div>
+            </div>
+            <div class="col s6"></div>
+          </div>
+
+          <div class="row">
+            <!--if own message use right col, if not use left col-->
+            <div class="col s6"></div>
+            <div class="col s6 ownMessage">
+              <div class="row">
+                <div class="col s2">
+                  <img src="" alt="Avatar">
+                </div>
+                <div class="col s10">
+                  <h5>Username</h5>
+                  <p>message</p>
+                  <span>Timestamp</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!--Input field, dear god help me.-->
+        <div class="row">
+          <div class="divider"></div>
+          <div class="col s1"></div>
+          <div class="col s10">
+            <textarea name="name" rows="8" cols="80"></textarea>
+            <button type="button" class="waves-effect waves-light btn" name="button">Submit</button>
+          </div>
+          <div class="col s1"></div>
+        </div>
+      </div>
+
+      <div class="col s2" id="activeUsers">
+        <!--Include Active users here-->
+      </div>
+    </div>
+
+  </div>
+  <!--Materialize-->
+  <script src="framework/materialize/js/materialize.min.js" type="text/javascript"></script>
+</body>
+
+</html>
