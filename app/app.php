@@ -27,6 +27,8 @@ $container['view'] = function ($c) {
         $basePath
     ));
 
+    $view->offsetSet('loggedIn', !empty($_SESSION['user_name']));
+
     return $view;
 };
 
