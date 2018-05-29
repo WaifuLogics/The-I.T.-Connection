@@ -67,7 +67,9 @@ $app->group('/register', function () {
                 ]);
                 echo 0;
                 /*Redirect the user*/
-                return $response->withRedirect($this->router->pathFor('thanks'), 301);
+                return $response->withRedirect($this->router->pathFor('thanks', [
+                    'message' => 'register'
+                ]), 301);
             } else {
                 /*Redirect the user*/
                 return $response->withRedirect($this->router->pathFor('error'), 301);
@@ -106,8 +108,10 @@ $app->get('/logout', function ($request, $response, $args) {
     return $response->withRedirect($this->router->pathFor('home'));
 })->setName('logout');
 
-$app->get('/thanks', function (Request $request, Response $response, $args) {
-    return $this->view->render($response, 'thanks.twig');
+$app->get('/thanks/{message}', function (Request $request, Response $response, $args) {
+    return $this->view->render($response, 'thanks.twig', [
+        'message' => $args['message']
+    ]);
 })->setName('thanks');
 
 $app->get('/error', function (Request $request, Response $response, $args) {
@@ -136,23 +140,22 @@ $app->group('/authorization', function () {
             if (count($data) > 0) {
                 foreach ($data as $d) {
                     if (password_verify($_POST['auth-pass'], $d['user_password'])) {
-                        $stmnt = $this->database->prepare("
-                                              INSERT INTO accounts (account_id, account_name, user_id, user_password)
-                                              VALUES (:accid, :accname, :userid, :userpass)
-                                              ");
-                        $accountId = "account_" . rand(-1000, -1000);
-                        $stmnt->execute([
+                        $accountId = "account_" . rand(-1000, 1000);
+                        $stmnt = $this->database->prepare("INSERT INTO accounts (account_id, account_name, user_id, user_password) VALUES (:accid, :accname, :userid, :userpass)");
+                        $success = $stmnt->execute([
                             'accid' => $accountId,
                             'accname' => $d['auth_username'],
                             'userid' => $d['auth_user'],
                             'userpass' => $d['user_password']
                         ]);
-                        if (!$stmnt) {
+                        if (!$success) {
                             return $response->withRedirect($this->router->pathFor('error'));
                         } else {
                             $stmnt = $this->database->prepare("DELETE FROM authorization WHERE auth_code = :code");
                             $stmnt->execute(['code' => $_POST['auth-code']]);
-                            return $response->withRedirect($this->router->pathFor('thanks2'));
+                            return $response->withRedirect($this->router->pathFor('thanks', [
+                                'message' => 'test'
+                            ]));
                         }
                     } else {
                         return $response->withRedirect($this->router->pathFor('error'));
@@ -189,6 +192,6 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
 function CheckLoginStatus()
 {
     if (!isset($_SESSION['user_name']) OR !isset($_SESSION['user_key']) OR !isset($_SESSION['user_name']) && !isset($_SESSION['user_key'])) {
-        return $response->withRedirect($this->router->pathFor('Home'));
+        return $this->withRedirect($this->router->pathFor('Home'));
     }
 }

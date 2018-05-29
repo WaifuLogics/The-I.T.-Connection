@@ -1,7 +1,11 @@
 {% extends 'templates/base.twig'%}
 
 {% block container %}
-<h3>Thank you for registering</h3>
-<h5>To complete the registering process, please click in the authorization link that is sent to your email</h5>
-<a class="btn-flat waves-effect waves-light" href="{{ path_for('register') }}">Click here to go back to the login page</a>
+    {% if message == "register" %}
+        <h3>Thank you for registering</h3>
+        <h5>To complete the registering process, please click in the authorization link that is sent to your email</h5>
+        <a class="btn-flat waves-effect waves-light" href="{{ path_for('register') }}">Click here to go back to the login page</a>
+    {% elseif message == "test2" %}
+
+    {% endif %}
 {% endblock %}
