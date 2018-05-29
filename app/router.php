@@ -179,7 +179,8 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
     if(isset($args['room_id']) && !empty($args['room_id'])) {
         return 'show chat with room id: ' . $args['room_id'];
     } else {
-        return 'list chats that the user is in and give option to create new chats';
+      return $this->view->render($response, 'chatpage.twig');
+        //return 'list chats that the user is in and give option to create new chats';
     }
 
 })->setName("chat");
