@@ -17,18 +17,23 @@ body {
 
 /*Friend list*/
 .user-img {
+    margin-left: 8px;
     border: 2px solid black;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: auto;
+    max-width: 50px;
+    max-height: 50px;
 }
 
 .user-img-big {
     margin: 0 auto;
     border: 2px solid black;
     border-radius: 50%;
-    width: 156px;
-    height: 156px;
+    width: 100%;
+    height: auto;
+    max-width: 156px;
+    max-height: 156px;
 }
 
 .container-user div {
@@ -43,11 +48,7 @@ body {
     margin-left: 8px;
 }
 
-#friend-list_online .container-user:nth-child(odd) div {
-    background-color: #ededed !important;
-}
-
-#friend-list_offline .container-user:nth-child(odd) div {
+#friend-list .container-user:nth-child(odd) div {
     background-color: #ededed !important;
 }
 
@@ -64,4 +65,8 @@ body {
 */
 #container-account_img{
     text-align: center;
+}
+
+#account_name{
+    font-size: auto;
 }

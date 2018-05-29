@@ -28,7 +28,7 @@ $container['view'] = function ($c) {
     ));
 
     $view->offsetSet('loggedIn', !empty($_SESSION['user_name']));
-    $view->offsetSet("accountName", $_SESSION['user_name']);
+    $view->offsetSet("accountName", !empty($_SESSION['user_name']));
 
     return $view;
 };

@@ -8,8 +8,8 @@
     <h5>Login</h5>
     <form class="" action="{{ path_for('login') }}" method="post">
       <div class="input-field">
-        <input id="email" type="email" class="validate" required name="login-email" value="">
-        <label for="email">E-mail Address</label>
+        <input id="email-login" type="email" class="validate" required name="login-email" value="">
+        <label for="email-login">E-mail Address</label>
       </div>
       <div class="input-field">
         <input id="password" type="password" class="validate" required name="login-pass" value="">
@@ -24,20 +24,20 @@
     <h5>Sign-Up</h5>
     <form class="" action="{{ path_for('register') }}" method="post">
       <div class="input-field">
-        <input id="email" type="email" class="validate" required name="register-email" value="">
-        <label for="email">E-mail Address</label>
+        <input id="email-register" type="email" class="validate" required name="register-email" value="">
+        <label for="email-register">E-mail Address</label>
       </div>
       <div class="input-field">
-        <input id="username" type="text" class="validate" required name="register-username" value="">
-        <label for="email">Choose a Username</label>
+        <input id="username-register" type="text" class="validate" required name="register-username" value="">
+        <label for="username-register">Choose a Username</label>
       </div>
       <div class="input-field">
-        <input id="password" type="password" class="validate" required name="register-password" value="">
-        <label for="password">Make a Password</label>
+        <input id="password-register" type="password" class="validate" required name="register-password" value="">
+        <label for="password-register">Make a Password</label>
       </div>
       <div class="input-field">
-        <input id="password" type="password" class="validate" required name="register-passconfirm" value="">
-        <label for="password">Repeat your Password</label>
+        <input id="password-complete" type="password" class="validate" required name="register-passconfirm" value="">
+        <label for="password-complete">Repeat your Password</label>
       </div>
       <input class="waves-light waves-light btn blue" type="submit" value="Submit">
     </form>
