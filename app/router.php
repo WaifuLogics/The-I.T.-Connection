@@ -8,14 +8,14 @@ $app->get('/', function (Request $request, Response $response, $args) {
     if (isset($_SESSION['user_name']) && isset($_SESSION['user_key'])) {
         return $this->view->render($response, 'homepage.twig');
     } else {
-        return $this->view->render($response, 'home.twig', []);
+        return $this->view->render($response, 'home.twig');
     }
 
 })->setName('home');
 
 $app->group('/register', function () {
     $this->get('[/]', function ($request, $response, $args) {
-        return $this->view->render($response, 'register.twig', []);
+        return $this->view->render($response, 'register.twig');
     })->setName('register');
 
     $this->post('[/]', function ($request, $response, $args) {
@@ -107,16 +107,16 @@ $app->get('/logout', function ($request, $response, $args) {
 })->setName('logout');
 
 $app->get('/thanks', function (Request $request, Response $response, $args) {
-    return $this->view->render($response, 'thanks.twig', []);
+    return $this->view->render($response, 'thanks.twig');
 })->setName('thanks');
 
 $app->get('/error', function (Request $request, Response $response, $args) {
-    return $this->view->render($response->withStatus(200), 'error.twig', []);
+    return $this->view->render($response->withStatus(200), 'error.twig');
 })->setName('error');
 
 $app->group('/authorization', function () {
     $this->get('[/]', function (Request $request, Response $response, $args) {
-        return $this->view->render($response, 'authorization.twig', []);
+        return $this->view->render($response, 'authorization.twig');
     })->setName('authorization');
 
     $this->post('[/]', function (Request $request, Response $response, $args) {
@@ -170,8 +170,19 @@ $app->group('/authorization', function () {
 });
 
 $app->get('/account', function (Request $request, Response $response, $args) {
-    return $this->view->render($response, 'account.twig', []);
+    return $this->view->render($response, 'account.twig');
 })->setName('account');
+
+// route: /chat[/{room_id}]
+$app->get('/chat[/{room_id}]', function (Request $request, Response $response, $args) {
+
+    if(isset($args['room_id']) && !empty($args['room_id'])) {
+        return 'show chat with room id: ' . $args['room_id'];
+    } else {
+        return 'list chats that the user is in and give option to create new chats';
+    }
+
+})->setName("chat");
 
 /* --- Functions --- */
 function CheckLoginStatus()
