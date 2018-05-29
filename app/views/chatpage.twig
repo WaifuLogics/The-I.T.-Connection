@@ -5,7 +5,7 @@
 
 <style>
   #chatWrap {
-    height: 75vh;
+    height: 71vh;
   }
 
   .otherMessage {
@@ -27,7 +27,7 @@
     <div class="row">
 
       <!--Main chatroom-->
-      <div class="col s10">
+      <div class="col l10 s12">
         <h2>Chatroom Name</h2>
         <div class="divider"></div>
         <div id="chatWrap">
@@ -79,10 +79,7 @@
           <div class="col s1"></div>
         </div>
       </div>
-
-      <div class="col s2" id="activeUsers">
-        <!--Include Active users here-->
-      </div>
+      {% include('templates/friendlist.twig') %}
     </div>
 
   </div>
