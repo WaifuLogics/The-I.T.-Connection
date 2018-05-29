@@ -1,51 +1,14 @@
 {% extends 'templates/base.twig' %}
 
 {% block body %}
-    <div class="">
-
+    <div>
         <!--Main Page Row-->
         <div class="row">
-
-            <!--Site Logo-->
-            <div class="col s3" style="height: 100vh; background-color: #EEEEEE">
-
-                <div class="divider"></div>
-
-                <!--Buttons-->
-                <div class="section">
-                    <div class="row">
-                        <div class="col s12">
-                            <a class="waves-effect waves-light btn" style="width: 100%;">My Account</a>
-                        </div>
-                        <div class="row">
-                            <div class="col s12">
-                                <a class="waves-effect waves-light btn" style="width: 49.5%;">Connections</a>
-                                <a class="waves-effect waves-light btn" style="width: 49.5%;">Projects</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12">
-                                <a class="waves-effect waves-light btn" style="width: 49.5%;">Options</a>
-                                <a class="waves-effect waves-light btn" style="width: 49.5%;">Search</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="row">
-                        <div class="col s12">
-                            <a class="waves-effect waves-light btn" href="{{ path_for('logout') }}"
-                               style="width: 100%;">Logout</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
             <!--Recent Activities-->
-            <div class="col s7" style="background-color: #FEFEFE; height: 100vh;">
+            <div class="col l10 s12" style="background-color: #FEFEFE; /*height: 100vh;*/">
                 <!--Sections by time-->
                 <div class="section">
-                    <h5>Recent Activity</h5>
+                    <h5>Feed</h5>
                     <div class="divider"></div>
                     <div class="row" style="background-color: #BCBCBC">
                         <div class="col s1">
@@ -69,13 +32,14 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
-            <div class="col s2" style="background-color: #9F9F9F; height: 100vh;">
-                <!--Include Active users here-->
-            </div>
+            {% include('templates/friendlist.twig') %}
         </div>
-
     </div>
+
+{% endblock %}
+{% block script %}
+    <script>
+        SetActive("header-home");
+    </script>
 {% endblock %}

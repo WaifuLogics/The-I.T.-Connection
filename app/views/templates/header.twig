@@ -1,28 +1,28 @@
-
 <div style="display:none">
     {% block menu %}
         {% if loggedIn %}
-            <li><a href="{{ path_for('home') }}">Home</a></li>
-            <li><a href="{#{{ path_for('account') }}#}">Account</a></li>
+            <li class="header-home"><a href="{{ path_for('home') }}">Home</a></li>
+            <li class="header-account"><a href="{{ path_for('account') }}">Account</a></li>
+            <li class="header-friends"><a href="{#{{ path_for('friends') }}#}">Friends</a></li>
+            <li class="header-projects"><a href="{#{{ path_for('projects') }}#}">Projects</a></li>
+            <li class="header-search"><a href="{#{{ path_for('account') }}#}">Search</a></li>
+            <li><a href="{{ path_for('logout') }}">Logout</a></li>
         {% else %}
-            <li><a href="{{ path_for('register') }}">Log in</a></li>
+            <li class="header-login"><a href="{{ path_for('register') }}">Log in</a></li>
         {% endif %}
     {% endblock %}
 </div>
-
 <header>
-    <nav class="blue">
+    <nav class="blue z-depth-0">
         <div class="nav-wrapper container">
-            <a style="margin-left: 24px;" class="left brand-logo">The I.T. Connection</a>
+            <a class="brand-logo truncate">The I.T. Connection</a>
             <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-items" class="right  hide-on-med-and-down">
                 {{ block('menu') }}
             </ul>
         </div>
     </nav>
-
     <ul class="sidenav" id="mobile-menu">
         {{ block('menu') }}
     </ul>
-
 </header>

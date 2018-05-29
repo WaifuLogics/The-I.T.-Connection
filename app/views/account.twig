@@ -1,0 +1,102 @@
+{% extends 'templates/base.twig' %}
+
+{% block body %}
+    <div>
+        <!--Main Page Row-->
+        <div class="row">
+            <!--User Details-->
+            <div class="col s3 section" style=" background-color: #EEEEEE">
+                <div class="section">
+                    <div class="row">
+                        <div id="container-account_img" class="col s12">
+                            <img class="user-img-big" src="/img/users/test.png" alt="Avatar">
+                            <h4>{{ accountName }}</h4>
+                        </div>
+                        <div class="col s3"></div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <!--Connections-->
+                <div class="section">
+                    <div class="row">
+                        <div class="col s12">
+                            <h5>Connections</h5>
+                        </div>
+                        <div class="row">
+                            <!--Links to connections-->
+                            <div class="col s4" style="background-color: gray;">
+                                <img src="" alt="connectionAvatar">
+                                <h5>Connection Username</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <a>See more connections</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Projects-->
+                <div class="section">
+                    <div class="row">
+                        <div class="col s12">
+                            <h5>Projects</h5>
+                        </div>
+                        <div class="row">
+                            <!--Links to projects-->
+                            <div class="col s4" style="background-color: gray;">
+                                <img src="" alt="projectImage">
+                                <h5>Project name</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <a>See more projects</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Recent Activities-->
+            <div class="col l7 s9" style="background-color: #FEFEFE; height: 100vh;">
+                <!--Sections by time-->
+                <div class="section">
+                    <h6>Time Indicator</h6>
+                    <div class="divider"></div>
+                    <div class="row" style="background-color: #BCBCBC">
+                        <div class="col s1">
+                            <img src="" alt="avatar">
+                        </div>
+                        <div class="col s11">
+                            <div class="row">
+                                <div class="col s9">
+                                    <h5>Username</h5>
+                                </div>
+                                <div class="col s3">
+                                    <h6>date & time</h6>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <p>Activity</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include('templates/friendlist.twig') %}
+        </div>
+
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        SetActive('header-account')
+    </script>
+{% endblock %}

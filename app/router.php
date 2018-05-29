@@ -169,6 +169,10 @@ $app->group('/authorization', function () {
     });
 });
 
+$app->get('/account', function (Request $request, Response $response, $args) {
+    return $this->view->render($response, 'account.twig', []);
+})->setName('account');
+
 /* --- Functions --- */
 function CheckLoginStatus()
 {
