@@ -179,7 +179,9 @@ $app->get('/account', function (Request $request, Response $response, $args) {
 // route: /chat[/{room_id}]
 $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $args) {
 
-    checkLoginStatus($response);
+    if(checkLoginStatus($response)) {
+        return checkLoginStatus($response);
+    }
 
     if(isset($args['room_id']) && ((int) $args['room_id']) > -1 ) {
         return $this->view->render($response, 'chatpage.twig', [
@@ -195,7 +197,8 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
 function checkLoginStatus(Response $request)
 {
     global $app;
-    if (!isset($_SESSION['user_name']) OR !isset($_SESSION['user_key']) OR !isset($_SESSION['user_name']) && !isset($_SESSION['user_key'])) {
+    if (!isset($_SESSION['user_name']) || !isset($_SESSION['user_key']) ) {
         return $request->withRedirect($app->getContainer()->router->pathFor('home'));
     }
+    else return false;
 }
