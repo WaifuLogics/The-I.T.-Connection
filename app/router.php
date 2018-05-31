@@ -179,17 +179,20 @@ $app->get('/account', function (Request $request, Response $response, $args) {
 // route: /chat[/{room_id}]
 $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $args) {
 
-    if(isset($args['room_id']) && !empty($args['room_id'])) {
-        return 'show chat with room id: ' . $args['room_id'];
+    checkLoginStatus();
+
+    if(isset($args['room_id']) && ((int) $args['room_id']) > 0 ) {
+        return $this->view->render($response, 'chatpage.twig', [
+            'roomId' => $args['room_id']
+        ]);
     } else {
-      return $this->view->render($response, 'chatpage.twig');
-        //return 'list chats that the user is in and give option to create new chats';
+        return 'list chats that the user is in and give option to create new chats, PETER DESIGN THIS PAGE';
     }
 
 })->setName("chat");
 
 /* --- Functions --- */
-function CheckLoginStatus()
+function checkLoginStatus()
 {
     if (!isset($_SESSION['user_name']) OR !isset($_SESSION['user_key']) OR !isset($_SESSION['user_name']) && !isset($_SESSION['user_key'])) {
         return $this->withRedirect($this->router->pathFor('Home'));

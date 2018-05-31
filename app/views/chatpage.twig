@@ -3,84 +3,98 @@
 
 {% block body %}
 
-<style>
-  #chatWrap {
-    height: 71vh;
-  }
+    <style>
+        #chatWrap {
+            height: 68vh;
+        }
 
-  .otherMessage {
-    background-color: rgb(54, 107, 142);
-  }
+        .otherMessage {
+            background-color: rgb(54, 107, 142);
+        }
 
-  .ownMessage {
-    background-color: rgb(102, 169, 194);
-  }
+        .ownMessage {
+            background-color: rgb(102, 169, 194);
+        }
 
-  #activeUsers {
-    background-color: #9F9F9F;
-    height: 100vh;
-  }
-</style>
+        #activeUsers {
+            background-color: #9F9F9F;
+            height: 100vh;
+        }
+    </style>
 
-  <div>
-    <!--Main Page Row-->
-    <div class="row">
-
-      <!--Main chatroom-->
-      <div class="col l10 s12">
-        <h2>Chatroom Name</h2>
-        <div class="divider"></div>
-        <div id="chatWrap">
-
-          <!--Create new rows for every message... fugg-->
-          <div class="row">
-            <!--if own message use right col, if not use left col-->
-            <div class="col s6 otherMessage">
-              <div class="row">
-                <div class="col s2">
-                  <img src="" alt="Other User's Avatar">
-                </div>
-                <div class="col s10">
-                  <h5>Username</h5>
-                  <p>message</p>
-                  <span>Timestamp</span>
-                </div>
-              </div>
-            </div>
-            <div class="col s6"></div>
-          </div>
-
-          <div class="row">
-            <!--if own message use right col, if not use left col-->
-            <div class="col s6"></div>
-            <div class="col s6 ownMessage">
-              <div class="row">
-                <div class="col s2">
-                  <img src="" alt="Avatar">
-                </div>
-                <div class="col s10">
-                  <h5>Username</h5>
-                  <p>message</p>
-                  <span>Timestamp</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <!--Input field, dear god help me.-->
+    <div>
+        <!--Main Page Row-->
         <div class="row">
-          <div class="divider"></div>
-          <div class="col s1"></div>
-          <div class="col s10">
-            <textarea name="name" rows="8" cols="80"></textarea>
-            <button type="button" class="waves-effect waves-light btn" name="button">Submit</button>
-          </div>
-          <div class="col s1"></div>
-        </div>
-      </div>
-      {% include('templates/friendlist.twig') %}
-    </div>
 
-  </div>
+            <!--Main chatroom-->
+            <div class="col l10 s12">
+                <h2>Chatroom Name</h2>
+                <div class="divider"></div>
+                <div id="chatWrap">
+                    <ul id="messageList"></ul>
+                    {#
+                              <!--Create new rows for every message... fugg-->
+                              <div class="row">
+                                <!--if own message use right col, if not use left col-->
+                                <div class="col s6 otherMessage">
+                                  <div class="row">
+                                    <div class="col s2">
+                                      <img src="" alt="Other User's Avatar">
+                                    </div>
+                                    <div class="col s10">
+                                      <h5>Username</h5>
+                                      <p>message</p>
+                                      <span>Timestamp</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col s6"></div>
+                              </div>
+
+                              <div class="row">
+                                <!--if own message use right col, if not use left col-->
+                                <div class="col s6"></div>
+                                <div class="col s6 ownMessage">
+                                  <div class="row">
+                                    <div class="col s2">
+                                      <img src="" alt="Avatar">
+                                    </div>
+                                    <div class="col s10">
+                                      <h5>Username</h5>
+                                      <p>message</p>
+                                      <span>Timestamp</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>#}
+
+                </div>
+                <!--Input field, dear god help me.-->
+                <div class="row">
+                    <div class="divider"></div>
+                    <div class="col s1"></div>
+                    <div class="col s10">
+                        <form onsubmit="return sendChatMessage();" id="messageForm">
+                            <textarea class="materialize-textarea" name="message" rows="8" cols="80"
+                                      placeholder="Enter your message..." onkeyup="updateChatTyping()"
+                                      onkeypress="return checkEnter(event);"></textarea>
+                            <button type="button" class="waves-effect waves-light btn blue col s12" name="button">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col s1"></div>
+                </div>
+            </div>
+            {% include('templates/friendlist.twig') %}
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="http://chat.protask.duncte123.me/getChatScript.php?room={{ roomId }}&user={{ accountName }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", connectToChat);
+    </script>
 {% endblock %}
