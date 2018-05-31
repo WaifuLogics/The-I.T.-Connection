@@ -21,12 +21,11 @@
         {% block container %}{% endblock %}
     </div>
 {% endblock %}
+{% include('templates/friendlistModal.twig') %}
 <!--Materialize-->
 <script src="/framework/materialize/js/materialize.min.js" type="text/javascript"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        M.Sidenav.init(document.querySelectorAll('.sidenav'));
-    });
+    M.AutoInit();
 </script>
 <!-- Website Scripts -->
 <script src="/js/global.js" type="text/javascript"></script>

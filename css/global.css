@@ -70,3 +70,11 @@ body {
 #account_name{
     font-size: auto;
 }
+
+#container-chatbox{
+    padding: 16px 0px 0px 0px;
+}
+
+#container-chatbox input{
+    margin-bottom: 0px !important;
+}

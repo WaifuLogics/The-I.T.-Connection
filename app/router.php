@@ -188,10 +188,21 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
 
 })->setName("chat");
 
+$app->group('/search', function (){
+    $this->get('[/]', function (Request $request, Response $response, $args) {
+        return $this->view->render($response, 'search.twig');
+    })->setName('search');
+
+    $this->post('[/post]', function (Request $request, Response $response, $args) {
+
+
+    })->setName('search');
+});
+
 /* --- Functions --- */
 function CheckLoginStatus()
 {
-    if (!isset($_SESSION['user_name']) OR !isset($_SESSION['user_key']) OR !isset($_SESSION['user_name']) && !isset($_SESSION['user_key'])) {
+    if (!isset($_SESSION['user_name']) || !isset($_SESSION['user_key']) || !isset($_SESSION['user_name']) && !isset($_SESSION['user_key'])) {
         return $this->withRedirect($this->router->pathFor('Home'));
     }
 }

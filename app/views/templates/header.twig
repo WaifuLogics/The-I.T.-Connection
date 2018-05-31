@@ -3,9 +3,9 @@
         {% if loggedIn %}
             <li class="header-home"><a href="{{ path_for('home') }}">Home</a></li>
             <li class="header-account"><a href="{{ path_for('account') }}">Account</a></li>
-            <li class="header-friends"><a href="{#{{ path_for('friends') }}#}">Friends</a></li>
+            <li class="header-friends"><a class="modal-trigger" href="#modal-friends">Friends</a></li>
             <li class="header-projects"><a href="{#{{ path_for('projects') }}#}">Projects</a></li>
-            <li class="header-search"><a href="{#{{ path_for('account') }}#}">Search</a></li>
+            <li class="header-search"><a href="{{ path_for('search') }}">Search</a></li>
             <li><a href="{{ path_for('logout') }}">Logout</a></li>
         {% else %}
             <li class="header-login"><a href="{{ path_for('register') }}">Log in</a></li>

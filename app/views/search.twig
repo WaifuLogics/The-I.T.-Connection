@@ -1,0 +1,19 @@
+{% extends 'templates/base.twig' %}
+{% block container %}
+<div>
+    <form action="/search" method="post">
+        <div id="container-chatbox" class="row">
+            <div class="input-field col s6 offset-s3">
+                <input id="search-box" type="text" name="search-username">
+                <label for="search-box">Search for profiles</label>
+            </div>
+        </div>
+    </form>
+    <div class="divider"></div>
+</div>
+{% endblock %}
+{% block script %}
+    <script>
+        SetActive('header-search')
+    </script>
+{% endblock %}
