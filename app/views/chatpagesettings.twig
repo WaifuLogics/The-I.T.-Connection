@@ -1,0 +1,65 @@
+{% extends 'templates/base.twig' %}
+
+
+{% block body %}
+
+    <style>
+      .userslider {
+        width: 80%;
+        overflow-x: scroll;
+      }
+
+      #roomAvatarWrapper {
+        background-color: rgb(177, 177, 177);
+      }
+    </style>
+
+    <div>
+        <!--Main Page Row-->
+        <div class="row">
+
+            <!--Main chatroom-->
+            <div class="col l10 s12">
+              <div class="row">
+
+                <form action="index.html" method="post">
+
+                <div class="col s6">
+                  <h3>Settings for [CHATROOM NAME]</h3>
+
+                  <h5>Add Friends</h5>
+                  <div class="userSlider">
+                    <!--Insert all befriended users here-->
+                    <a><img class="user-img" src="/img/users/test.png" alt="user image"/></a>
+                  </div>
+
+                  <h5>Remove Users</h5>
+                  <div class="userSlider">
+                    <!--Insert all Currently added users here-->
+                    <a><img class="user-img" src="/img/users/test.png" alt="user image"/></a>
+                  </div>
+
+                  <h5>Change Room Name</h5>
+                  <textarea name="roomName" placeholder="[CURRENT ROOM NAME]" rows="8" cols="80"></textarea>
+                </div>
+
+                <div class="col s6">
+                  <div id="roomAvatarWrapper">
+                    <h5>Avatar</h5>
+                    <img class="user-img-big" src="/img/users/test.png" alt="user image">
+                    <button class="waves-effect waves-light btn" type="button" name="button">Change Group Avatar</button>
+                  </div>
+                </div>
+                <input type="submit" name="" class="waves-effect waves-light btn" value="">
+              </form>
+              </div>
+            </div>
+            {% include('templates/friendlist.twig') %}
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
