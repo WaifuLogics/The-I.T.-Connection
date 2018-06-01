@@ -183,7 +183,7 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
         return checkLoginStatus($response);
     }
 
-    if(isset($args['room_id']) && ((int) $args['room_id']) > -1 ) {
+    if(isset($args['room_id']) && ((int) $args['room_id']) > 0 ) {
         return $this->view->render($response, 'chatpage.twig', [
             'roomId' => $args['room_id']
         ]);
