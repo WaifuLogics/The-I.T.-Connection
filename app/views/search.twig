@@ -7,9 +7,13 @@
                 <input id="search-box" type="text" name="search-username">
                 <label for="search-box">Search for profiles</label>
             </div>
+            <button id="search-btn" onclick="Search(this.value)" class="btn waves-effect waves-light blue"
+                        type="button">Search</button>
         </div>
     </form>
     <div class="divider"></div>
+    <!-- This gets filled with the accounts you searched -->
+    <div id="container-search_accounts_output"></div>
 </div>
 {% endblock %}
 {% block script %}

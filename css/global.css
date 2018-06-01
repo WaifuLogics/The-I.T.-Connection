@@ -5,7 +5,7 @@ body {
     overflow-y: hidden;
 }
 
-.section{
+.section {
     height: calc(100vh - 64px);
 }
 
@@ -63,18 +63,39 @@ body {
     --- Account Page ---
 
 */
-#container-account_img{
+#container-account_img {
     text-align: center;
 }
 
-#account_name{
-    font-size: auto;
-}
-
-#container-chatbox{
+#container-chatbox {
     padding: 16px 0px 0px 0px;
 }
 
-#container-chatbox input{
+#container-chatbox input {
     margin-bottom: 0px !important;
+}
+
+/* label color */
+.input-field label {
+    color: lightgrey;
+}
+
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: #2196f3 !important;
+}
+
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #2196f3 !important;
+    box-shadow: 0 1px 0 0 #2196f3 !important;
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #2196f3 !important;
+}
+
+#search-btn {
+    margin: 22px 0px 0px 12px;
 }
