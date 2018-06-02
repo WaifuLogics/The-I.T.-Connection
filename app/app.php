@@ -38,9 +38,9 @@ $container['view'] = function ($c) {
 
 $container['database'] = function ($c) {
     /*Database connection information*/
-    $servername = /*"protask.duncte123.me"*/ "localhost";
-    $username = /*"pro"*/ "root";
-    $password = /*"30Fos5L1Y"*/ "";
+    $servername = "protask.duncte123.me";
+    $username = "pro";
+    $password = "30Fos5L1Y";
     $dbname = "it_connection";
 
     return new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
