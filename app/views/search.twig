@@ -7,7 +7,7 @@
                 <input id="search-box" type="text" name="search-username">
                 <label for="search-box">Search for profiles</label>
             </div>
-            <button id="search-btn" onclick="Search(document.getElementById('search-box').value)" class="btn waves-effect waves-light blue"
+            <button id="search-btn" onclick="Search(document.getElementById('search-box').value, {{ accountId }})" class="btn waves-effect waves-light blue"
                         type="button">Search</button>
         </div>
     </form>
