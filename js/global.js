@@ -47,7 +47,11 @@ function AddFriend(cur_user, oth_user) {
   fetch('/inc/friendScript.php', headers).then(response => response.text())
   .then(data => {
     if(data == "success"){
-      
+      M.toast({html: 'Friend Request Send', displayLength: '1500', inDuration: '600', outDuration: '600'});
+      let friendBtn = document.getElementsByClassName('friend-button');
+      for(let i = 0; i < friendBtn.length; i += 1){
+        friendBtn[i].style.display = "none";
+      }
     }
   });
 }

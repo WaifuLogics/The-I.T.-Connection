@@ -16,7 +16,7 @@ if(isset($_POST['type']) && $_POST['type'] != ""){
         'othUs' => $othUser,
         'reqTim' => date("y-m-d H:i:s"),
       ]);
-      var_dump($stmnt->errorInfo());
+      echo "success";
       break;
     case "accept":
       /* Get's activated when someone accepts a friend request */

@@ -19,8 +19,10 @@ if(isset($_POST['search-username']) && $_POST['search-username'] != ""){
       echo "<div class='row center-align'>";
         echo "<p>".$data['account_name']."</p>";
         echo "<input type='hidden' id='search_user_id' value='$data[account_id]'/>";
-        echo "<button type='button' onclick='AddFriendButton()' class='btn'>"."Add Friend"."</button>";
-        echo "<input type='hidden' id='myId' value='$_POST[search_thisUser]'>";
+        if(CheckFriendRequestId($data['account_id'], $_POST['search_thisUser'], $container->database) == "false"){
+          echo "<button type='button' onclick='AddFriendButton()' id='$data[account_id]' class='btn friend-button'>"."Add Friend"."</button>";
+          echo "<input type='hidden' id='myId' value='$_POST[search_thisUser]'>";
+        }
       echo "</div>";
     }
   }else{
@@ -28,4 +30,33 @@ if(isset($_POST['search-username']) && $_POST['search-username'] != ""){
   }
 }else{
   echo "<p class='center-align'>Please enter the name of the account you want to search for</p>";
+}
+
+/*C*/
+function CheckFriendRequestId($searchedId, $nameOfSearcher, $db){
+  /* Check if the user searches himself*/
+  if($searchedId != $nameOfSearcher){
+    /* Check if the user has send a friend request*/
+    if(CheckFriendRequests($searchedId, $nameOfSearcher, $db) == "false"){
+      return "false";
+    }else{
+      return "true";
+    }
+  }else if($searchedId == $nameOfSearcher){
+    return "true";
+  }
+}
+
+function CheckFriendRequests($searchedId, $nameOfSearcher, $db){
+  $stmnt = $db->prepare("SELECT current_user_id, other_user_id FROM friend_request WHERE other_user_id = :otherId AND current_user_id = :currentId");
+  $stmnt->execute([
+    'otherId' => $searchedId,
+    'currentId' => $nameOfSearcher
+  ]);
+  $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+  if(count($result) > 0){
+    return "true";
+  }else{
+    return "false";
+  }
 }
