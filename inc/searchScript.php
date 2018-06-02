@@ -20,8 +20,10 @@ if(isset($_POST['search-username']) && $_POST['search-username'] != ""){
         echo "<p>".$data['account_name']."</p>";
         echo "<input type='hidden' id='search_user_id' value='$data[account_id]'/>";
         if(CheckFriendRequestId($data['account_id'], $_POST['search_thisUser'], $container->database) == "false"){
-          echo "<button type='button' onclick='AddFriendButton()' id='$data[account_id]' class='btn friend-button'>"."Add Friend"."</button>";
-          echo "<input type='hidden' id='myId' value='$_POST[search_thisUser]'>";
+          $arguments = array('userSearches' => $_POST['search_thisUser'], 'searchedUser' => $data['account_id']);
+          $functionFill = htmlentities(json_encode($arguments));
+          echo "<button type='button' onclick='AddFriend($functionFill)' id='$data[account_id]' class='btn friend-button'>"."Add Friend"."</button>";
+          echo "<input type='hidden' class='myId' value='$_POST[search_thisUser]'>";
         }
       echo "</div>";
     }
@@ -38,7 +40,9 @@ function CheckFriendRequestId($searchedId, $nameOfSearcher, $db){
   if($searchedId != $nameOfSearcher){
     /* Check if the user has send a friend request*/
     if(CheckFriendRequests($searchedId, $nameOfSearcher, $db) == "false"){
-      return "false";
+      if(CheckIfFriends($searchedId, $nameOfSearcher, $db) == "false"){
+        return "false";
+      }
     }else{
       return "true";
     }
@@ -56,6 +60,28 @@ function CheckFriendRequests($searchedId, $nameOfSearcher, $db){
   $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
   if(count($result) > 0){
     return "true";
+  }else{
+    return "false";
+  }
+}
+
+function CheckIfFriends($searchedId, $nameOfSearcher, $db){
+  $stmnt = $db->prepare("SELECT * FROM friends WHERE account_id = :accId AND account_friended = :accFr");
+  $stmnt->execute([
+    'accId' => $searchedId,
+    'accFr' => $nameOfSearcher
+  ]);
+  $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+  if(count($result) > 0){
+    foreach ($result as $data) {
+      /* THIS DOES NOT WORK, I AM GOING TO FIX IT - Guylian */
+      if($data['accountId'] == $searchedId && $data['account_friended'] == $nameOfSearcher ||
+         $data['accountId'] == $nameOfSearcher && $data['account_friended'] == $searchedId){
+           return "false";
+      }else {
+        return "true";
+      }
+    }
   }else{
     return "false";
   }

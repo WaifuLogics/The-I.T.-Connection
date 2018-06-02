@@ -52,10 +52,16 @@ body {
     background-color: #ededed !important;
 }
 
-#section-friend_list {
+.section-friend_list {
     color: black;
     background-color: white;
-    border-left: 1px solid black;
+}
+
+#recent-activity{
+  border-right: solid 2px black !important;
+}
+.section-friend_request h4{
+  padding-top: 64px;
 }
 
 /*

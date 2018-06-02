@@ -14,7 +14,8 @@
     <link href="/framework/animate.css" rel="stylesheet" type="text/css">
 </head>
 
-<body>
+<body onload="CheckFriendRequests();">
+  <input type="hidden" id="global-user_id" value="{{ accountId }}"/>
 {% include('templates/header.twig') %}
 {% block body %}
     <div class="container">

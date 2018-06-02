@@ -29,17 +29,18 @@ $container['view'] = function ($c) {
 
     $view->offsetSet('loggedIn', !empty($_SESSION['user_name']));
     if(isset($_SESSION['user_name'])){
-        $view->offsetSet("accountName", $_SESSION['user_name']);
+      $view->offsetSet("accountName", $_SESSION['user_name']);
     }
+    $view->offsetSet("accountId", "'".$_SESSION['user_key']."'");
 
     return $view;
 };
 
 $container['database'] = function ($c) {
     /*Database connection information*/
-    $servername = "protask.duncte123.me";
-    $username = "pro";
-    $password = "30Fos5L1Y";
+    $servername = /*"protask.duncte123.me"*/ "localhost";
+    $username = /*"pro"*/ "root";
+    $password = /*"30Fos5L1Y"*/ "";
     $dbname = "it_connection";
 
     return new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);

@@ -8,9 +8,7 @@ function SetActive(mode) {
 }
 
 function Search(f_username, thisUser) {
-
   let bodyInfo = 'search-username=' + f_username + "&search_thisUser=" + thisUser;
-
     /*The headers used to post data*/
     let headers = {
         method: 'post',
@@ -26,14 +24,9 @@ function Search(f_username, thisUser) {
         });
 }
 
-function AddFriendButton(){
-  AddFriend(GetId('myId').value, GetId('search_user_id').value);
-}
-
-function AddFriend(cur_user, oth_user) {
-  let currentUser = cur_user;
-  let otherUser = oth_user;
-
+function AddFriend(json) {
+  let currentUser = json['userSearches'];
+  let otherUser = json['searchedUser'];
 
   let bodyInfo = 'type=request&curUser=' + currentUser + '&othUser=' + otherUser;
   let headers = {
@@ -50,8 +43,50 @@ function AddFriend(cur_user, oth_user) {
       M.toast({html: 'Friend Request Send', displayLength: '1500', inDuration: '600', outDuration: '600'});
       let friendBtn = document.getElementsByClassName('friend-button');
       for(let i = 0; i < friendBtn.length; i += 1){
-        friendBtn[i].style.display = "none";
+        if(friendBtn[i].id == otherUser){
+          friendBtn[i].style.display = "none";
+        }
       }
     }
   });
+}
+
+function CheckFriendRequests(){
+  let bodyInfo = 'type=check&userId=' + GetId('global-user_id').value;
+  let headers = {
+    method:'post',
+    headers: {
+      "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+    },
+    body: bodyInfo
+  }
+
+  fetch('/inc/friendScript.php', headers).then(response => response.text())
+    .then(data => {
+      cont = document.getElementsByClassName('friend_request-list');
+      for(let i = 0; i < cont.length; i += 1){
+        cont[i].innerHTML = data;
+      }
+    })
+}
+
+function AcceptRequest(array){
+  let requester = array['requester'];
+  let accepter = array['accepter'];
+
+  let bodyInfo = 'type=accept&requester=' + requester + '&accepter=' + accepter;
+  let headers = {
+    method:'post',
+    headers: {
+      "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+    },
+    body: bodyInfo
+  }
+
+  fetch('/inc/friendScript.php', headers).then(response => response.text())
+    .then(data => {
+      if(data == 'success'){
+        CheckFriendRequests();
+      }
+    });
 }
