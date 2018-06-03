@@ -85,6 +85,7 @@ function AcceptRequest(array){
 
   fetch('/inc/friendScript.php', headers).then(response => response.text())
     .then(data => {
+      console.log(data);
       if(data == 'success'){
         M.toast({html: 'Friend Added', displayLength: '1500', inDuration: '600', outDuration: '600'});
         CheckFriendRequests();

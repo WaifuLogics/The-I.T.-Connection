@@ -1,7 +1,7 @@
 <?php
 session_start();
 include('../app/app.php');
-/* Assign the PDO object to a local variable */
+require('globalFunctions.php');
 
 if(isset($_POST['type']) && $_POST['type'] != ""){
   switch ($_POST['type']){
@@ -12,25 +12,24 @@ if(isset($_POST['type']) && $_POST['type'] != ""){
 
       $friendAddName = "unset";
 
-      /* Retrieve the name of the requester */
-      $stmnt = $container->database->prepare("SELECT account_name, account_id FROM accounts WHERE account_id = :accId");
-      $stmnt->execute(['accId' => $curUser]);
-      $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+      /* Get the account name from the requester */
+      $result = ReturnQueryResult("SELECT account_name, account_id FROM accounts WHERE account_id = :accId", ['accId' => $curUser], $container->database);
       if(count($result) > 0){
         foreach($result as $data){
           $friendAddName = $data['account_name'];
         }
       }
-      /* Insert a friend request into a table */
+      /* Preset the query arguments */
       if($friendAddName != "unset"){
-        $stmnt = $container->database->prepare("INSERT INTO friend_request (current_user_id, other_user_id, friend_requester, request_time)
-        VALUES (:curUs, :othUs, :friReq, :reqTim);");
-        $stmnt->execute([
+        $queryArguments = array(
           'curUs' => $curUser,
           'othUs' => $othUser,
           'friReq' => $friendAddName,
-          'reqTim' => date("y-m-d H:i:s"),
-        ]);
+          'reqTim' => date("y-m-d H:i:s")
+        );
+        /* Insert a friend request into a table */
+        ExecuteQuery("INSERT INTO friend_request (current_user_id, other_user_id, friend_requester, request_time)
+        VALUES (:curUs, :othUs, :friReq, :reqTim);", $queryArguments, $container->database);
         echo "success";
       }
       break;
@@ -41,39 +40,41 @@ if(isset($_POST['type']) && $_POST['type'] != ""){
 
       $friendAddName = "unset";
 
-      $stmnt = $container->database->prepare("SELECT account_name, account_id FROM accounts WHERE account_id = :accId");
-      $stmnt->execute(['accId' => $requester]);
-      $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+      $result = ReturnQueryResult("SELECT account_name, account_id FROM accounts WHERE account_id = :accId", ['accId' => $requester], $container->database);
       if(count($result) > 0){
         foreach($result as $data){
           $friendAddName = $data['account_name'];
         }
       }
       if($friendAddName != "unset"){
-        $stmnt = $container->database->prepare("INSERT INTO friends (account_id, account_friended, friends_since)
-        VALUES(:accId, :accFri, :friSinc)");
-        $stmnt->execute([
+        /* Preset the query arguments*/
+        $queryArguments = array(
           'accId' => $accepter,
           'accFri' => $requester,
           'friSinc' => date("y-m-d H:i:s")
-        ]);
+        );
 
-        $stmnt = $container->database->prepare("DELETE FROM friend_request WHERE current_user_id = :cuid AND other_user_id = :otuid AND friend_requester = :frireq");
-        $stmnt->execute([
+        /* Insert new friends into the friends table */
+        ExecuteQuery("INSERT INTO friends (account_id, account_friended, friends_since)
+        VALUES(:accId, :accFri, :friSinc)", $queryArguments, $container->database);
+
+        /* Preset the query arguments*/
+        $queryArguments = array(
           'cuid' => $requester,
           'otuid' => $accepter,
           'frireq' => $friendAddName,
-        ]);
+        );
 
+        /* Delete friend request from the friend_request table */
+        ExecuteQuery("DELETE FROM friend_request WHERE current_user_id = :cuid AND other_user_id = :otuid AND friend_requester = :frireq"
+                     , $queryArguments, $container->database);
         echo "success";
       }
       break;
     case "check":
       /* Gets activated when someone goes into their friend tab */
       if(isset($_POST['userId'])){
-        $stmnt = $container->database->prepare("SELECT * FROM friend_request;");
-        $stmnt->execute();
-        $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+        $result = ReturnQueryResult("SELECT * FROM friend_request;", [], $container->database);
         if(count($result) > 0){
             foreach($result as $data){
               if($_POST['userId'] != $data['friend_requester']){

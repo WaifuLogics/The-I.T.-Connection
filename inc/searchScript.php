@@ -2,24 +2,24 @@
 session_start();
 /* Include the app file to get acces to the PDO object */
 include('../app/app.php');
+require('globalFunctions.php');
 
 /* Check if the POST variable is set and isn't empty */
 if(isset($_POST['search-username']) && $_POST['search-username'] != ""){
   /* Create a variable that acts as the search arguments*/
   $searchName = "%".$_POST['search-username']."%";
 
+  /* Preset the query arguments */
+  $queryArguments = array(':searchName' => $searchName);
   /* Search for the $searchName contents in the database */
-  $stmnt = $container->database->prepare("SELECT account_id, account_name FROM accounts WHERE account_name LIKE :searchName");
-  $stmnt->execute([':searchName' => $searchName]);
-
-  $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+  $result = ReturnQueryResult("SELECT account_id, account_name FROM accounts WHERE account_name LIKE :searchName", $queryArguments, $container->database);
   if(count($result) > 0){
     foreach ($result as $data) {
       /* Display all of the found accounts */
       echo "<div class='row center-align'>";
         echo "<p>".$data['account_name']."</p>";
         echo "<input type='hidden' id='search_user_id' value='$data[account_id]'/>";
-        if(CheckFriendRequestId($data['account_id'], $_POST['search_thisUser'], $container->database) == "false"){
+        if(CheckFriendRequestId($data['account_id'], $_POST['search_thisUser'], $searchName, $container->database) == "false"){
           $arguments = array('userSearches' => $_POST['search_thisUser'], 'searchedUser' => $data['account_id']);
           $functionFill = htmlentities(json_encode($arguments));
           echo "<button type='button' onclick='AddFriend($functionFill)' id='$data[account_id]' class='btn friend-button'>"."Add Friend"."</button>";
@@ -35,29 +35,28 @@ if(isset($_POST['search-username']) && $_POST['search-username'] != ""){
 }
 
 /*C*/
-function CheckFriendRequestId($searchedId, $nameOfSearcher, $db){
+function CheckFriendRequestId($searchedId, $idOfSearcher, $nameOfSearcher, $db){
   /* Check if the user searches himself*/
-  if($searchedId != $nameOfSearcher){
+  if($searchedId != $idOfSearcher){
     /* Check if the user has send a friend request*/
-    if(CheckFriendRequests($searchedId, $nameOfSearcher, $db) == "false"){
-      if(CheckIfFriends($searchedId, $nameOfSearcher, $db) == "false"){
+    if(CheckFriendRequests($searchedId, $idOfSearcher, $nameOfSearcher, $db) == "false"){
+      if(CheckIfFriends($searchedId, $idOfSearcher, $db) == "false"){
         return "false";
       }
     }else{
       return "true";
     }
-  }else if($searchedId == $nameOfSearcher){
+  }else if($searchedId == $idOfSearcher){
     return "true";
   }
 }
 
-function CheckFriendRequests($searchedId, $nameOfSearcher, $db){
-  $stmnt = $db->prepare("SELECT current_user_id, other_user_id FROM friend_request WHERE other_user_id = :otherId AND current_user_id = :currentId");
-  $stmnt->execute([
+function CheckFriendRequests($searchedId, $idOfSearcher, $nameOfSearcher, $db){
+  $queryArguments = array(
     'otherId' => $searchedId,
-    'currentId' => $nameOfSearcher
-  ]);
-  $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+    'currentId' => $idOfSearcher
+  );
+  $result = ReturnQueryResult("SELECT current_user_id, other_user_id FROM friend_request WHERE other_user_id = :otherId AND current_user_id = :currentId", $queryArguments, $db);
   if(count($result) > 0){
     return "true";
   }else{
@@ -65,23 +64,15 @@ function CheckFriendRequests($searchedId, $nameOfSearcher, $db){
   }
 }
 
-function CheckIfFriends($searchedId, $nameOfSearcher, $db){
-  $stmnt = $db->prepare("SELECT * FROM friends WHERE account_id = :accId AND account_friended = :accFr");
-  $stmnt->execute([
+function CheckIfFriends($searchedId, $idOfSearcher, $db){
+
+  $queryArguments = array(
     'accId' => $searchedId,
-    'accFr' => $nameOfSearcher
-  ]);
-  $result = $stmnt->fetchAll(PDO::FETCH_ASSOC);
+    'accFr' => $idOfSearcher
+  );
+  $result = ReturnQueryResult("SELECT * FROM friends WHERE account_id = :accId AND account_friended = :accFr", $queryArguments, $db);
   if(count($result) > 0){
-    foreach ($result as $data) {
-      /* THIS DOES NOT WORK, I AM GOING TO FIX IT - Guylian */
-      if($data['accountId'] == $searchedId && $data['account_friended'] == $nameOfSearcher ||
-         $data['accountId'] == $nameOfSearcher && $data['account_friended'] == $searchedId){
-           return "false";
-      }else {
-        return "true";
-      }
-    }
+    return "true";
   }else{
     return "false";
   }
