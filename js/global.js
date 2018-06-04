@@ -7,6 +7,7 @@ function SetActive(mode) {
     }
 }
 
+/* This function searches for users */
 function Search(f_username, thisUser) {
   let bodyInfo = 'search-username=' + f_username + "&search_thisUser=" + thisUser;
     /*The headers used to post data*/
