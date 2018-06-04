@@ -10,7 +10,7 @@
                     <div class="row">
                         <div id="container-account_img" class="col s12">
                             <img class="user-img-big" src="/img/users/test.png" alt="Avatar">
-                            <h4 id="account_name">{{ accountName }}</h4>
+                            <h4 id="account_name">{{ projectName }}</h4>
                         </div>
                         <div class="col s3"></div>
                     </div>
@@ -18,11 +18,11 @@
 
                 <div class="divider"></div>
 
-                <!--Connections-->
+                <!--Users Connected to this project-->
                 <div class="section">
                     <div class="row">
                         <div class="col s12">
-                            <h5>Connections</h5>
+                            <h5>Developers of this project</h5>
                         </div>
                         <div class="row">
                             <!--Links to connections-->
@@ -31,34 +31,18 @@
                                 <h5>Connection Username</h5>
                             </div>
                         </div>
+                        <!--In Case of lot of users, show all users-->
                         <div class="row">
                             <div class="col s12">
-                                <a>See more connections</a>
+                                <a>See all people connected to this project</a>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!--Projects-->
-                <div class="section">
-                    <div class="row">
-                        <div class="col s12">
-                            <h5>Projects</h5>
-                        </div>
-                        <div class="row">
-                            <!--Links to projects-->
-                            <div class="col s4" style="background-color: gray;">
-                                <img src="" alt="projectImage">
-                                <h5>Project name</h5>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12">
-                                <a>See more projects</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!--For project creator/admin, include project settings-->
+                <a class="waves-effect waves-light btn">Settings</a>
+
             </div>
 
             <!--Recent Activities-->
