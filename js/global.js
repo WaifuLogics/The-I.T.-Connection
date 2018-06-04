@@ -113,16 +113,31 @@ function RetrieveFriends() {
     fetch('/inc/friendScript.php', headers).then(response => response.json())
         .then(json => {
             console.log(json);
-            for (let friend of json.friends) {
-                for (let list of document.getElementsByClassName("friend-list")) {
-                    list.innerHTML += `
-                    <li class="container-user">
-                        <div class="col s12 wrapper-user">
-                            <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                            <p>${friend.account_name}</p>
-                        </div>
-                    </li>
-                `;
+            for(let friend of json){
+                if(friend.account_id == userID){
+                    /* The requester sees the friend*/
+                    for(let list of document.getElementsByClassName("friend-list")){
+                        list.innerHTML += `
+                         <li class="container-user">
+                             <div class="col s12 wrapper-user">
+                                 <img class="user-img" src="/img/users/test.png" alt="user image"/>
+                                 <p>${friend.account_name}</p>
+                             </div>
+                         </li>
+                     `;
+                    }
+                }else{
+                    /* The accepter sees the friend*/
+                    for(let list of document.getElementsByClassName("friend-list")){
+                        list.innerHTML += `
+                         <li class="container-user">
+                             <div class="col s12 wrapper-user">
+                                 <img class="user-img" src="/img/users/test.png" alt="user image"/>
+                                 <p>${friend.account_id}</p>
+                             </div>
+                         </li>
+                     `;
+                    }
                 }
             }
         });

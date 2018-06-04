@@ -106,34 +106,28 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                 $userId = StripPostQuotes($_POST['userId']);
                 /*Get all the data i need from the friends table*/
                 $queryArguments = ['id' => $userId];
-                $result = ReturnQueryResult("SELECT * FROM friends WHERE account_id = :id",
+                $result = ReturnQueryResult("SELECT * FROM friends WHERE account_id = :id ",
                     $container->database, $queryArguments);
                 if (count($result) > 0) {
-                    $accountFriended = $result['0']['account_friended'];
-
-                    /* Get the name of the user that i need*/
-                    $queryArguments = ['id' => $accountFriended];
-                    $result = ReturnQueryResult("SELECT * FROM accounts WHERE account_id = :id",
-                        $container->database, $queryArguments);
-                    /* Make a JSON object of the account name and pass it back to the javascript file*/
-                    $friendName = $result['0']['account_name'];
-                    if (count($result) > 0) {
-                        $json = json_encode([
-                            'friends' => $result
-                        ]);
-                        echo $json;
-                    } else {
-                        /* Check if there is a */
-                        echo json_encode(['friends' => []]);
-                    }
+                    echo json_encode($result);
                     // whoops something died
                 } else {
-                echo json_encode(['friends' => []]);
+                    $userId = StripPostQuotes($_POST['userId']);
+                    /*Get all the data i need from the friends table*/
+                    $queryArguments = ['id' => $userId];
+                    $result = ReturnQueryResult("SELECT * FROM friends WHERE account_friended = :id ",
+                        $container->database, $queryArguments);
+                    if(count($result) > 0){
+                        echo json_encode($result);
+                    }else{
+                        echo json_encode(['friends' => []]);
+                    }
+                }
             }
-        }
-        break;
-    default:
-        echo "<p>" . "Failed to resolve request" . "</p>";
+            break;
+        default:
+            echo "<p>" . "Failed to resolve request" . "</p>";
+            break;
     }
 } else {
     echo "<p>" . "Access Denied" . "</p>";
