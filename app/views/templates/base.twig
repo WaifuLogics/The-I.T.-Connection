@@ -14,8 +14,8 @@
     <link href="/framework/animate.css" rel="stylesheet" type="text/css">
 </head>
 
-<body onload="CheckFriendRequests();">
-  <input type="hidden" id="global-user_id" value="{{ accountId }}"/>
+<body>
+<input type="hidden" id="global-user_id" value="{{ accountId }}"/>
 {% include('templates/header.twig') %}
 {% block body %}
     <div class="container">
@@ -25,11 +25,16 @@
 {% include('templates/friendlistModal.twig') %}
 <!--Materialize-->
 <script src="/framework/materialize/js/materialize.min.js"></script>
-<script>
-    M.AutoInit();
-</script>
 <!-- Website Scripts -->
 <script src="/js/global.js"></script>
+<script>
+    /* When the webpage is loaded do checks on the friend system and initialize all materialize components*/
+    document.addEventListener("DOMContentLoaded", () => {
+        CheckFriendRequests();
+        RetrieveFriends();
+    });
+    M.AutoInit();
+</script>
 {% block script %}
 {% endblock %}
 </body>

@@ -78,7 +78,7 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                 if (count($result) > 0) {
                     $requester = $result['0']['friend_requester'];
                     $accepter = str_replace("'", "", $_POST['userId']);
-                    if(!CheckIfFriends($requester, $accepter, $container->database)){
+                    if (!CheckIfFriends($requester, $accepter, $container->database)) {
                         if ($result['0']['current_user_id'] != str_replace("'", "", $_POST['userId'])) {
                             echo "<div class='row friend-request'>";
                             echo "<p>" . $result['0']['friend_requester'] . "</p>";
@@ -88,7 +88,7 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                             echo "<button type='button' onclick='AcceptRequest(" . $functionArgs . ")'
                             class='btn-flat white-text blue waves-effect waves-light'>" . "<i class='material-icons'>done</i>" . "</button>";
                             echo "</div>";
-                        }else{
+                        } else {
                             echo "<p>" . "No friend requests found" . "</p>";
                         }
                     }
@@ -100,14 +100,47 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                 echo "Failed to find friend requests";
             }
             break;
-        default:
-            echo "<p>" . "Failed to resolve request" . "</p>";
+        case 'retrieve':
+            header('Content-Type: application/json');
+            if (isset($_POST['userId'])) {
+                $userId = StripPostQuotes($_POST['userId']);
+                /*Get all the data i need from the friends table*/
+                $queryArguments = ['id' => $userId];
+                $result = ReturnQueryResult("SELECT * FROM friends WHERE account_id = :id",
+                    $container->database, $queryArguments);
+                if (count($result) > 0) {
+                    $accountFriended = $result['0']['account_friended'];
+
+                    /* Get the name of the user that i need*/
+                    $queryArguments = ['id' => $accountFriended];
+                    $result = ReturnQueryResult("SELECT * FROM accounts WHERE account_id = :id",
+                        $container->database, $queryArguments);
+                    /* Make a JSON object of the account name and pass it back to the javascript file*/
+                    $friendName = $result['0']['account_name'];
+                    if (count($result) > 0) {
+                        $json = json_encode([
+                            'friends' => $result
+                        ]);
+                        echo $json;
+                    } else {
+                        /* Check if there is a */
+                        echo json_encode(['friends' => []]);
+                    }
+                    // whoops something died
+                } else {
+                echo json_encode(['friends' => []]);
+            }
+        }
+        break;
+    default:
+        echo "<p>" . "Failed to resolve request" . "</p>";
     }
 } else {
     echo "<p>" . "Access Denied" . "</p>";
 }
 
-function CheckIfFriends($accId, $accFriended, $db){
+function CheckIfFriends($accId, $accFriended, $db)
+{
     $accountId = CheckUserId($accId, $db);
     $queryArguments = array(
         'accId' => $accFriended,
@@ -115,20 +148,17 @@ function CheckIfFriends($accId, $accFriended, $db){
     );
     $result = ReturnQueryResult("SELECT account_id, account_friended FROM friends
                                         WHERE account_id = :accId AND account_friended = :accFriended",
-                                        $db, $queryArguments);
-    if(count($result) > 0){
-        if($result['0']['account_id'] == $accFriended){
-            return true;
-        }else{
-            return false;
-        }
-    }else{
-        return false;
-    }
+        $db, $queryArguments);
 }
 
-function CheckUserId($name, $db){
+function CheckUserId($name, $db)
+{
     $queryArguments = array('name' => $name);
     $result = ReturnQueryResult("SELECT account_id FROM accounts WHERE account_name = :name", $db, $queryArguments);
     return $result['0']['account_id'];
+}
+
+function StripPostQuotes($str)
+{
+    return str_replace("'", "", $str);
 }
