@@ -62,7 +62,7 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                 $queryArguments = array(
                     'cuid' => $requester,
                     'otuid' => $accepter,
-                    'frireq' => $friendAddName,
+                    'frireq' => $friendAddName
                 );
 
                 /* Delete friend request from the friend_request table */
@@ -74,11 +74,12 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
         case "check":
             /* Gets activated when someone goes into their friend tab */
             if (isset($_POST['userId'])) {
-                $result = ReturnQueryResult("SELECT * FROM friend_request;", $container->database);
+                $result = ReturnQueryResult("SELECT * FROM friend_request WHERE other_user_id = :uid;", $container->database, [
+                    "uid" => $_POST['userId']
+                ]);
                 if (count($result) > 0) {
                     $requester = $result['0']['friend_requester'];
                     $accepter = str_replace("'", "", $_POST['userId']);
-                    if (!CheckIfFriends($requester, $accepter, $container->database)) {
                         if ($result['0']['current_user_id'] != str_replace("'", "", $_POST['userId'])) {
                             echo "<div class='row friend-request'>";
                             echo "<p>" . $result['0']['friend_requester'] . "</p>";
@@ -91,7 +92,6 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                         } else {
                             echo "<p>" . "No friend requests found" . "</p>";
                         }
-                    }
 
                 } else {
                     echo "<p>" . "No friend requests found" . "</p>";

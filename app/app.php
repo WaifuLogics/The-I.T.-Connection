@@ -32,7 +32,7 @@ $container['view'] = function ($c) {
     if(isset($_SESSION['user_name'])){
       $view->offsetSet("accountName", $_SESSION['user_name']);
     }
-    $view->offsetSet("accountId", "'".$_SESSION['user_key']."'");
+    $view->offsetSet("accountId", $_SESSION['user_key']);
 
     return $view;
 };
