@@ -4,3 +4,5 @@
 composer\.lock
 
 \.vs/
+
+app/config/config\.php

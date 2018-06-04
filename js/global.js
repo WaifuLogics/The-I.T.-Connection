@@ -35,7 +35,7 @@ function AddFriend(json) {
       "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
     },
     body: bodyInfo
-  }
+  };
   /* Insert a friend request in the friend_request table*/
   fetch('/inc/friendScript.php', headers).then(response => response.text())
   .then(data => {

@@ -1,5 +1,6 @@
 <?php
 require(__DIR__ . "/../vendor/autoload.php");
+require(__DIR__ . '/config/config.php');
 
 $app = new \Slim\App([
     'settings' => [
@@ -37,11 +38,12 @@ $container['view'] = function ($c) {
 };
 
 $container['database'] = function ($c) {
+    $s = $GLOBALS['config']['database'];
     /*Database connection information*/
-    $servername = "protask.duncte123.me";
-    $username = "pro";
-    $password = "30Fos5L1Y";
-    $dbname = "it_connection";
+    $servername = $s['servername'];
+    $username = $s['username'];
+    $password = $s['password'];
+    $dbname = $s['dbname'];
 
     return new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 };
