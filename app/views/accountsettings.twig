@@ -1,0 +1,87 @@
+{% extends 'templates/base.twig' %}
+
+{% block body %}
+
+<style>
+  #formWrap {
+    border: 2px solid black;
+    border-radius: 5px;
+    height: 335px;
+  }
+
+  .userslider {
+    width: 80%;
+    overflow-x: scroll;
+  }
+
+  #accountAvatarWrapper {
+    background-color: rgb(177, 177, 177);
+    text-align: center;
+    height: 300px;
+  }
+
+  #deleteBtn {
+    background-color: #cb2626;
+  }
+
+  #accountAvatar {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .accountSettingCol {
+    height: 320px;
+  }
+
+  #accountSettingSubmit {
+    margin-top: 4px;
+    text-align: center;
+  }
+</style>
+
+<div>
+  <!--Main Page Row-->
+  <div class="row">
+
+    <!--Main accountroom-->
+    <div class="col l10 s12">
+      <div class="row">
+
+        <h3>Settings for your account</h3>
+        <form action="index.html" method="post">
+
+          <div id="formWrap">
+              <h5>Change bio Name</h5>
+              <textarea name="roomName" placeholder="Bio" rows="8" cols="80">[CURRENT BIO]</textarea>
+
+              <!--Add Github, I don't know how API's work...-->
+              <button type="submit" class="waves-effect waves-light btn">Add Github</button>
+
+              <!--Delete Button, show pop-up to make sure this isn't a mistake-->
+              <button type="submit" id="deleteBtn" class="waves-effect waves-light btn" value="">DELETE ACCOUNT</button>
+            </div>
+
+            <div class="col s6 accountSettingCol">
+              <div id="accountAvatarWrapper">
+                <h5>Avatar</h5>
+                <img class="user-img-big" id="accountAvatar" src="/img/users/test.png" alt="user image">
+                <button class="waves-effect waves-light btn" type="button" name="button">Change Group Avatar</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div id="accountSettingSubmit">
+            <button type="submit" name="" class="waves-effect waves-light btn" value="">Apply and Save</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    {% include('templates/friendlist.twig') %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block script %} {% endblock %}

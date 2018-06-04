@@ -1,0 +1,99 @@
+{% extends 'templates/base.twig' %}
+
+{% block body %}
+
+<style>
+  #formWrap {
+    border: 2px solid black;
+    border-radius: 5px;
+    height: 385px;
+  }
+
+  .userslider {
+    width: 80%;
+    overflow-x: scroll;
+  }
+
+  #projectAvatarWrapper {
+    background-color: rgb(177, 177, 177);
+    text-align: center;
+    height: 350px;
+  }
+
+  #deleteBtn {
+    background-color: #cb2626;
+  }
+
+  #projectAvatar {
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .projectSettingCol {
+    height: 370px;
+  }
+
+  #projectSettingSubmit {
+    margin-top: 4px;
+    text-align: center;
+  }
+</style>
+
+<div>
+  <!--Main Page Row-->
+  <div class="row">
+
+    <!--Main projectroom-->
+    <div class="col l10 s12">
+      <div class="row">
+
+        <h3>Settings for [PROJECT NAME]</h3>
+        <form action="index.html" method="post">
+
+          <div id="formWrap">
+
+            <div class="col s6 projectSettingCol">
+              <h5>Add users you know</h5>
+              <div class="userSlider">
+                <!--Insert all befriended users here-->
+                <a><img class="user-img" src="/img/users/test.png" alt="user image"/></a>
+              </div>
+              <h5>Remove Users</h5>
+              <div class="userSlider">
+                <!--Insert all Currently added users here-->
+                <a><img class="user-img" src="/img/users/test.png" alt="user image"/></a>
+              </div>
+              <h5>Change Project Name</h5>
+              <textarea name="roomName" placeholder="[CURRENT PROJECT NAME]" rows="8" cols="80">[CURRENT PROJECT NAME]</textarea>
+
+              <!--Add Github, I don't know how API's work...-->
+              <button type="submit" class="waves-effect waves-light btn">Add Github</button>
+
+              <!--Delete Button, show pop-up to make sure this isn't a mistake-->
+              <button type="submit" id="deleteBtn" class="waves-effect waves-light btn" value="">DELETE PROJECT</button>
+            </div>
+
+            <div class="col s6 projectSettingCol">
+              <div id="projectAvatarWrapper">
+                <h5>Avatar</h5>
+                <img class="user-img-big" id="projectAvatar" src="/img/users/test.png" alt="user image">
+                <button class="waves-effect waves-light btn" type="button" name="button">Change Group Avatar</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div id="projectSettingSubmit">
+            <button type="submit" name="" class="waves-effect waves-light btn" value="">Apply and Save</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    {% include('templates/friendlist.twig') %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block script %} {% endblock %}

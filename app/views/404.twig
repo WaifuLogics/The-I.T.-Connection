@@ -1,0 +1,7 @@
+{% extends 'templates/base.twig' %}
+
+{% block container %}
+<h1>Error 404 - Page not found</h1>
+<h2>The page you've tried to access doesn't exists, sorry about that!</h2>
+<a class="btn" href="{{ path_for('home') }}">Go back to the main page</a>
+{% endblock %}
