@@ -121,7 +121,7 @@ function RetrieveFriends() {
                          <li class="container-user">
                              <div class="col s12 wrapper-user">
                                  <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                 <p>${friend.account_name}</p>
+                                 <p>${friend.account_friended}</p>
                              </div>
                          </li>
                      `;
@@ -133,7 +133,7 @@ function RetrieveFriends() {
                          <li class="container-user">
                              <div class="col s12 wrapper-user">
                                  <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                 <p>${friend.account_id}</p>
+                                 <p>${friend.account_friended}</p>
                              </div>
                          </li>
                      `;
