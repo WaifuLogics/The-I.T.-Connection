@@ -19,6 +19,7 @@ function Search(f_username, thisUser) {
         body: bodyInfo
     };
 
+    /* Return the result of the search request */
     fetch('/inc/searchScript.php', headers).then(response => response.text())
         .then(data => {
             document.getElementById('container-search_accounts_output').innerHTML = data;
@@ -112,10 +113,13 @@ function RetrieveFriends() {
     };
     fetch('/inc/friendScript.php', headers).then(response => response.json())
         .then(json => {
-            console.log(json);
             for (let friend of json) {
                 if (friend.account_id == userID) {
+                    let accountName = ReturnUserName(friend.account_id);
+                    console.log(accountName);
+                    let accountFriendedName = ReturnUserName(friend.account_friended);
                     /* The requester sees the friend*/
+                    console.log(accountName);
                     for (let list of document.getElementsByClassName("friend-list")) {
                         list.innerHTML += `
                          <li class="container-user">
@@ -143,3 +147,19 @@ function RetrieveFriends() {
         });
 }
 
+/* This function returns the userName of a userId */
+function ReturnUserName(str){
+    let bodyInfo = 'type=getUserId&userId=' + str;
+    let headers = {
+        method: 'post',
+        headers: {
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        body: bodyInfo
+    };
+    fetch('/inc/friendScript.php', headers).then(response => response.json())
+        .then(json => {
+            str = json;
+            return str;
+        });
+}

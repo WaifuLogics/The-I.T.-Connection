@@ -125,6 +125,16 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                 }
             }
             break;
+        case 'getUserId':
+            /*Execute a query that returns the user id of the requested post variable*/
+            if(isset($_POST['userId'])){
+                $id = $_POST['userId'];
+                $query = "SELECT account_name FROM accounts WHERE account_id = :id";
+                $result = ReturnQueryResult($query, $container->database, ['id' => $id]);
+                /* Return the JSON array of the result and give it back as a response */
+                echo json_encode($result);
+            }
+            break;
         default:
             echo "<p>" . "Failed to resolve request" . "</p>";
             break;
