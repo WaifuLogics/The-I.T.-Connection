@@ -66,7 +66,7 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                 );
 
                 /* Delete friend request from the friend_request table */
-                ExecuteQuery("DELETE FROM friend_request WHERE current_user_id = :cuid AND other_user_id = :otuid AND 
+                ExecuteQuery("DELETE FROM friend_request WHERE current_user_id = :cuid AND other_user_id = :otuid AND
                               friend_requester = :frireq", $container->database, $queryArguments);
                 echo "success";
             }
@@ -132,7 +132,8 @@ if (isset($_POST['type']) && $_POST['type'] != "") {
                 $query = "SELECT account_name FROM accounts WHERE account_id = :id";
                 $result = ReturnQueryResult($query, $container->database, ['id' => $id]);
                 /* Return the JSON array of the result and give it back as a response */
-                echo json_encode($result);
+                $array = ['account_name' => $result['0']['account_name']];
+                echo json_encode($array);
             }
             break;
         default:

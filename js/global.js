@@ -93,10 +93,10 @@ function AcceptRequest(array) {
 
     fetch('/inc/friendScript.php', headers).then(response => response.text())
         .then(data => {
-            console.log(data);
             if (data == 'success') {
                 M.toast({html: 'Friend Added', displayLength: '1500', inDuration: '600', outDuration: '600'});
                 CheckFriendRequests();
+                RetrieveFriends()
             }
         });
 }
@@ -112,20 +112,16 @@ function RetrieveFriends() {
         body: bodyInfo
     };
     fetch('/inc/friendScript.php', headers).then(response => response.json())
-        .then(json => {
+        .then(async json => {
             for (let friend of json) {
                 if (friend.account_id == userID) {
-                    let accountName = ReturnUserName(friend.account_id);
-                    console.log(accountName);
-                    let accountFriendedName = ReturnUserName(friend.account_friended);
                     /* The requester sees the friend*/
-                    console.log(accountName);
                     for (let list of document.getElementsByClassName("friend-list")) {
                         list.innerHTML += `
                          <li class="container-user">
                              <div class="col s12 wrapper-user">
                                  <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                 <p>${friend.account_friended}</p>
+                                 <p>${await ReturnUserName(friend.account_friended)}</p>
                              </div>
                          </li>
                      `;
@@ -137,7 +133,7 @@ function RetrieveFriends() {
                          <li class="container-user">
                              <div class="col s12 wrapper-user">
                                  <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                 <p>${friend.account_id}</p>
+                                 <p>${await ReturnUserName(friend.account_id)}</p>
                              </div>
                          </li>
                      `;
@@ -147,8 +143,9 @@ function RetrieveFriends() {
         });
 }
 
-/* This function returns the userName of a userId */
-function ReturnUserName(str){
+async function ReturnUserName(str) {
+    let url = '/inc/friendScript.php';
+    'use strict';
     let bodyInfo = 'type=getUserId&userId=' + str;
     let headers = {
         method: 'post',
@@ -157,9 +154,14 @@ function ReturnUserName(str){
         },
         body: bodyInfo
     };
-    fetch('/inc/friendScript.php', headers).then(response => response.json())
-        .then(json => {
-            str = json;
-            return str;
-        });
+    'use strict';
+    const getUser = async identifier => await (await fetch(url, headers)).json();
+
+    try {
+        const secondUser = await getUser();
+        // there are 10 users in JSONPlaceholder/Users
+        return secondUser.account_name;
+    } catch (exception) {
+        console.error('Failed to retrieve user informations: (${exception})');
+    }
 }
