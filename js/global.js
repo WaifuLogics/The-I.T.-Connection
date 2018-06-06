@@ -144,8 +144,6 @@ function RetrieveFriends() {
 }
 
 async function ReturnUserName(str) {
-    let url = '/inc/friendScript.php';
-    'use strict';
     let bodyInfo = 'type=getUserId&userId=' + str;
     let headers = {
         method: 'post',
@@ -154,13 +152,13 @@ async function ReturnUserName(str) {
         },
         body: bodyInfo
     };
-    'use strict';
-    const getUser = async identifier => await (await fetch(url, headers)).json();
+    /* Execute a fetch and wait for a response without stalling the DOM */
+    const getUser = async identifier => await (await fetch('/inc/friendScript.php', headers)).json();
 
     try {
-        const secondUser = await getUser();
-        // there are 10 users in JSONPlaceholder/Users
-        return secondUser.account_name;
+        /* Wait for the response of the request and then return the username */
+        let userName = await getUser();
+        return userName.account_name;
     } catch (exception) {
         console.error('Failed to retrieve user informations: (${exception})');
     }
