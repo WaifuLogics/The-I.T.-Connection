@@ -9,6 +9,7 @@ function SetActive(mode) {
 
 /* This function searches for users */
 function Search(f_username, thisUser) {
+    // pathfor: {{ path_for('search') }}
     let bodyInfo = 'search-username=' + f_username + "&search_thisUser=" + thisUser;
     /*The headers used to post data*/
     let headers = {
@@ -20,7 +21,7 @@ function Search(f_username, thisUser) {
     };
 
     /* Return the result of the search request */
-    fetch('/inc/searchScript.php', headers).then(response => response.text())
+    fetch("{{ path_for('search') }}", headers).then(response => response.text())
         .then(data => {
             document.getElementById('container-search_accounts_output').innerHTML = data;
         });
@@ -45,7 +46,7 @@ function AddFriend(json) {
         body: bodyInfo
     };
     /* Insert a friend request in the friend_request table*/
-    fetch('/inc/friendScript.php', headers).then(response => response.text())
+    fetch("{{ path_for('friend-request') }}", headers).then(response => response.text())
         .then(data => {
             if (data == "success") {
                 M.toast({html: 'Friend Request Send', displayLength: '1500', inDuration: '600', outDuration: '600'});
@@ -69,7 +70,7 @@ function CheckFriendRequests() {
         body: bodyInfo
     };
 
-    fetch('/inc/friendScript.php', headers).then(response => response.text())
+    fetch("{{ path_for('friend-check') }}", headers).then(response => response.text())
         .then(data => {
             cont = document.getElementsByClassName('friend_request-list');
             for (let i = 0; i < cont.length; i += 1) {
@@ -91,7 +92,7 @@ function AcceptRequest(array) {
         body: bodyInfo
     };
 
-    fetch('/inc/friendScript.php', headers).then(response => response.text())
+    fetch("{{ path_for('friend-check') }}", headers).then(response => response.text())
         .then(data => {
             if (data == 'success') {
                 M.toast({html: 'Friend Added', displayLength: '1500', inDuration: '600', outDuration: '600'});
@@ -111,9 +112,9 @@ function RetrieveFriends() {
         },
         body: bodyInfo
     };
-    fetch('/inc/friendScript.php', headers).then(response => response.json())
+    fetch("{{ path_for('friend-retrieve') }}", headers).then(response => response.json())
         .then(async json => {
-            for (let friend of json) {
+            for (let friend of json.friends) {
                 if (friend.account_id == userID) {
                     /* The requester sees the friend*/
                     for (let list of document.getElementsByClassName("friend-list")) {
@@ -153,7 +154,7 @@ async function ReturnUserName(str) {
         body: bodyInfo
     };
     /* Execute a fetch and wait for a response without stalling the DOM */
-    const getUser = async identifier => await (await fetch('/inc/friendScript.php', headers)).json();
+    const getUser = async identifier => await (await fetch("{{ path_for('friend-getUserId') }}", headers)).json();
 
     try {
         /* Wait for the response of the request and then return the username */

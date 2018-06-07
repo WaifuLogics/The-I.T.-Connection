@@ -178,11 +178,11 @@ $app->get('/account', function (Request $request, Response $response, $args) {
 // route: /chat[/{room_id}]
 $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $args) {
 
-    if(checkLoginStatus($response)) {
+    if (checkLoginStatus($response)) {
         return checkLoginStatus($response);
     }
 
-    if(isset($args['room_id']) && ((int) $args['room_id']) > 0 ) {
+    if (isset($args['room_id']) && ((int)$args['room_id']) > 0) {
         return $this->view->render($response, 'chatpage.twig', [
             'roomId' => $args['room_id']
         ]);
@@ -192,23 +192,17 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
 
 })->setName("chat");
 
-$app->group('/search', function (){
-    $this->get('[/]', function (Request $request, Response $response, $args) {
-        return $this->view->render($response, 'search.twig');
-    })->setName('search');
-
-    $this->post('[/post]', function (Request $request, Response $response, $args) {
-
-
-    })->setName('search');
+$app->get('/js/global.js', function (Request $request, Response $response, $args) {
+    return $this->view->render(
+        $response->withHeader('Content-type', 'application/javascript'), 'js/global.js');
 });
 
 /* --- Functions --- */
 function checkLoginStatus(Response $request)
 {
     global $app;
-    if (!isset($_SESSION['user_name']) || !isset($_SESSION['user_key']) ) {
+    if (!isset($_SESSION['user_name']) || !isset($_SESSION['user_key'])) {
         return $request->withRedirect($app->getContainer()->router->pathFor('home'));
-    }
-    else return false;
+    } else return false;
 }
+

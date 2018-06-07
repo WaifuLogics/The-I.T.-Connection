@@ -1,22 +1,33 @@
 <?php
-session_start();
-/* Include the app file to get acces to the PDO object */
-include('../app/app.php');
-require('globalFunctions.php');
+
+use Slim\Http\{
+    Request, Response
+};
+
+$app->group('/search', function () {
+    $this->get('[/]', function (Request $request, Response $response, $args) {
+        return $this->view->render($response, 'search.twig');
+    })->setName('search');
+
+    $this->post('[/]', function (Request $request, Response $response, $args) {
+
+
+    });
+});
 
 /* Check if the POST variable is set and isn't empty */
-if (isset($_POST['search-username']) && $_POST['search-username'] != "") {
-    /* Create a variable that acts as the search arguments*/
+/*if (isset($_POST['search-username']) && $_POST['search-username'] != "") {
+    /* Create a variable that acts as the search arguments *
     $searchName = "%" . $_POST['search-username'] . "%";
 
-    /* Preset the query arguments */
+    /* Preset the query arguments *
     $queryArguments = array(':searchName' => $searchName);
-    /* Search for the $searchName contents in the database */
+    /* Search for the $searchName contents in the database *
     $result = ReturnQueryResult("SELECT account_id, account_name FROM accounts
                                         WHERE account_name LIKE :searchName", $container->database, $queryArguments);
     if (count($result) > 0) {
         foreach ($result as $data) {
-            /* Display all of the found accounts */
+            /* Display all of the found accounts *
             echo "<div class='row center-align'>";
             echo "<p>" . $data['account_name'] . "</p>";
             echo "<input type='hidden' id='search_user_id' value='$data[account_id]'/>";
@@ -33,7 +44,7 @@ if (isset($_POST['search-username']) && $_POST['search-username'] != "") {
     }
 } else {
     echo "<p class='center-align'>Please enter the name of the account you want to search for</p>";
-}
+}*/
 
 /*C*/
 function CheckFriendRequestId($searchedId, $idOfSearcher, $nameOfSearcher, $db)
@@ -68,18 +79,4 @@ function CheckFriendRequests($searchedId, $idOfSearcher, $nameOfSearcher, $db)
     }
 }
 
-function CheckIfFriends($searchedId, $idOfSearcher, $db)
-{
 
-    $queryArguments = array(
-        'accId' => $searchedId,
-        'accFr' => $idOfSearcher
-    );
-    $result = ReturnQueryResult("SELECT * FROM friends WHERE account_id = :accId AND
-                                        account_friended = :accFr", $db, $queryArguments);
-    if (count($result) > 0) {
-        return "true";
-    } else {
-        return "false";
-    }
-}

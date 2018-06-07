@@ -1,8 +1,11 @@
 <?php
 require(__DIR__ . "/../vendor/autoload.php");
 require(__DIR__ . '/config/config.php');
+require(__DIR__ . '/includes/functions.php');
 
-$app = new \Slim\App([
+use Slim\App;
+
+$app = new App([
     'settings' => [
         'displayErrorDetails' => true
     ]
@@ -32,7 +35,8 @@ $container['view'] = function ($c) {
     if(isset($_SESSION['user_name'])){
       $view->offsetSet("accountName", $_SESSION['user_name']);
     }
-    $view->offsetSet("accountId", $_SESSION['user_key']);
+    $view->offsetSet("accountId",
+        isset($_SESSION['user_key']) && !empty($_SESSION['user_key']) ? $_SESSION['user_key'] : 0);
 
     return $view;
 };
@@ -48,4 +52,7 @@ $container['database'] = function ($c) {
     return new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 };
 
-require(__DIR__ . "/router.php");
+
+require(__DIR__ . '/routers/main.php');
+require(__DIR__ . '/routers/search.php');
+require(__DIR__ . '/routers/friends.php');
