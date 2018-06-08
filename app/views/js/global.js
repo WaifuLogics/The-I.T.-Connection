@@ -112,8 +112,13 @@ function RetrieveFriends() {
         },
         body: bodyInfo
     };
-    fetch("{{ path_for('friend-retrieve') }}", headers).then(response => response.json())
-        .then(async json => {
+    fetch("{{ path_for('friend-retrieve') }}", headers)
+        .then(()=>{
+            console.log(response);
+            response => response.json();
+         }
+        )
+            .then(async json => {
             for (let friend of json.friends) {
                 if (friend.account_id == userID) {
                     /* The requester sees the friend*/
