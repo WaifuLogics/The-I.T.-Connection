@@ -106,7 +106,7 @@ function RetrieveFriends() {
     let userID = GetId('global-user_id').value;
     let bodyInfo = 'type=retrieve&userId=' + userID;
     let headers = {
-        method: 'post',
+        method: 'get',
         headers: {
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },

@@ -101,7 +101,7 @@ $app->group('/friends', function () {
         }
     })->setName('friend-check');
 
-    $this->post('/retrieve', function (Request $request, Response $response, $args) {
+    $this->get('/retrieve', function (Request $request, Response $response, $args) {
         //header('Content-Type: application/json');
         $data = ['friends' => []];
         if (isset($_POST['userId'])) {
