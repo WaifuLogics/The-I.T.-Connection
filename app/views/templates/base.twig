@@ -28,11 +28,14 @@
 <!-- Website Scripts -->
 <script src="/index.php/js/global.js"></script>
 <script>
+    {# Check if the user is logged in #}
+    {% if loggedIn %}
     /* When the webpage is loaded do checks on the friend system and initialize all materialize components*/
     document.addEventListener("DOMContentLoaded", () => {
         CheckFriendRequests();
         RetrieveFriends();
     });
+    {% endif %}
     M.AutoInit();
 </script>
 {% block script %}
