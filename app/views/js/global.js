@@ -103,22 +103,19 @@ function AcceptRequest(array) {
 }
 
 function RetrieveFriends() {
-    let userID = GetId('global-user_id').value;
+    let userID = "{{ accountId }}";
     let bodyInfo = 'type=retrieve&userId=' + userID;
     let headers = {
-        method: 'get',
+        method: 'post',
         headers: {
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
         body: bodyInfo
     };
     fetch("{{ path_for('friend-retrieve') }}", headers)
-        .then(()=>{
-            console.log(response);
-            response => response.json();
-         }
-        )
+        .then(response => response.json())
             .then(async json => {
+                console.log(json);
             for (let friend of json.friends) {
                 if (friend.account_id == userID) {
                     /* The requester sees the friend*/

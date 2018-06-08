@@ -101,7 +101,7 @@ $app->group('/friends', function () {
         }
     })->setName('friend-check');
 
-    $this->get('/retrieve', function (Request $request, Response $response, $args) {
+    $this->post('/retrieve', function (Request $request, Response $response, $args) {
         //header('Content-Type: application/json');
         $data = ['friends' => []];
         if (isset($_POST['userId'])) {
@@ -110,22 +110,18 @@ $app->group('/friends', function () {
             $queryArguments = ['id' => $userId];
             $result = ReturnQueryResult("SELECT * FROM friends WHERE account_id = :id ",
                 $this->database, $queryArguments);
-            if (count($result) > 0) {
-                echo json_encode($result);
-                // whoops something died
-            } else {
-                $userId = StripPostQuotes($_POST['userId']);
+            if (count($result) <= 0) {
                 /*Get all the data i need from the friends table*/
-                $queryArguments = ['id' => $userId];
-                $result = ReturnQueryResult("SELECT * FROM friends WHERE account_friended = :id ",
+                $result2 = ReturnQueryResult("SELECT * FROM friends WHERE account_friended = :id ",
                     $this->database, $queryArguments);
                 if (count($result) > 0) {
-                    $data = ['friends' => $result];
+                    $data = ['friends' => $result2 ];
                 }
+            } else {
+                $data = ['friends' => $result ];
             }
-
-            return $response->withJson($data);
         }
+        return $response->withJson($data);
     })->setName('friend-retrieve');
 
     $this->post('/getUserId', function (Request $request, Response $response, $args) {
