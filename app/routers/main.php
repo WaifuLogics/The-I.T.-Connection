@@ -108,9 +108,8 @@ $app->get('/logout', function ($request, $response, $args) {
 })->setName('logout');
 
 $app->get('/thanks/{message}', function (Request $request, Response $response, $args) {
-    return $this->view->render($response, 'thanks.twig', [
-        'message' => $args['message']
-    ]);
+    return $this->view->render($response, 'thanks.twig', ['message' => $args['message']]
+    );
 })->setName('thanks');
 
 $app->get('/error', function (Request $request, Response $response, $args) {
@@ -153,7 +152,7 @@ $app->group('/authorization', function () {
                             $stmnt = $this->database->prepare("DELETE FROM authorization WHERE auth_code = :code");
                             $stmnt->execute(['code' => $_POST['auth-code']]);
                             return $response->withRedirect($this->router->pathFor('thanks', [
-                                'message' => 'test'
+                                'message' => 'authorized'
                             ]));
                         }
                     } else {

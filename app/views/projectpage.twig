@@ -5,8 +5,8 @@
         <div id="container-projects" class="row">
             <ul id="list-project">
                 {% if accountId is not null and accountId is not empty %}
-                <li>
-                    <a class="modal-trigger" href="#modal-createproject">re</a>
+                <li class="project-wrapper">
+                    <a id="create_article-button" class="modal-trigger" href="#modal-createproject">Create New Project</a>
                 </li>    
                 {% endif %}
             </ul>
@@ -18,13 +18,15 @@
       <h4>Create New Project</h4>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat left">Create</a>
+      <div class="divider"></div>
+      <button class="modal-close btn blue left waves-effect waves-light">Create</button>
+      <button class="modal-close btn blue left waves-effect waves-light">Cancel</button>
     </div>
   </div>
 
 </div>
 {% endblock %} {% block script %}
 <script>
-    SetActive('header-account')
+    SetActive('header-projects')
 </script>
 {% endblock %}

@@ -9,6 +9,10 @@ body {
     height: calc(100vh - 64px);
 }
 
+.modal-footer button{
+    margin-right: 12px !important;
+}
+
 /*
 
     --- Homepage ---
@@ -104,4 +108,30 @@ body {
 
 #search-btn {
     margin: 22px 0px 0px 12px;
+}
+
+/*
+
+    --- Project Styling ---
+
+*/
+
+.project-wrapper{
+    margin: 0 auto;
+    max-width: 650px;
+    height: fit-content;
+    text-align: center;
+    border: solid 2px lightgray;
+    transition: background-color 0.3s ease;
+}
+
+.project-wrapper:hover{
+    background-color: #F9F9F9;
+}
+
+#create_article-button{
+    display: block;
+    padding: 25px;
+    color: black;
+    font-size: 20px;
 }

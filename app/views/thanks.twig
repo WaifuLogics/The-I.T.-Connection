@@ -1,11 +1,17 @@
 {% extends 'templates/base.twig'%}
 
 {% block container %}
+    {# Check for the type of link the framework receives and change the page accordingly #}
     {% if message == "register" %}
         <h3>Thank you for registering</h3>
         <h5>To complete the registering process, please click in the authorization link that is sent to your email</h5>
         <a class="btn-flat waves-effect waves-light" href="{{ path_for('register') }}">Click here to go back to the login page</a>
-    {% elseif message == "test2" %}
-
+    {% elseif message == "authorized" %}
+        <div class="center-align">
+            <h3>Thanks for Authorizing</h3>
+            <div class="divider"></div>
+            <p>We from the I.T. Connection give you a warm welcome and hope you can find much use from our service!</p>
+            <a href="{{ path_for('register') }}">Log into your account</a>
+        </div>
     {% endif %}
 {% endblock %}
