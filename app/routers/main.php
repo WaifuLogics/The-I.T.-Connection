@@ -175,6 +175,10 @@ $app->get('/account', function (Request $request, Response $response, $args) {
     return $this->view->render($response, 'account.twig');
 })->setName('account');
 
+$app->get('/projects', function (Request $request, Response $response, $args) {
+    return $this->view->render($response, 'projectpage.twig');
+})->setName('projects');
+
 // route: /chat[/{room_id}]
 $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $args) {
 
