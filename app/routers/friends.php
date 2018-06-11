@@ -1,7 +1,8 @@
 <?php
 
-use Slim\Http\Request;
-use Slim\Http\Response;
+use Slim\Http\{
+    Request, Response
+};
 
 $app->group('/friends', function () {
     $this->post('/request', function (Request $request, Response $response, $args) {
@@ -122,7 +123,7 @@ $app->group('/friends', function () {
             $query = "SELECT account_name FROM accounts WHERE account_id = :id";
             $result = ReturnQueryResult($query, $this->database, ['id' => $id]);
             /* Return the JSON array of the result and give it back as a response */
-            foreach($result as $data){
+            foreach ($result as $data) {
                 echo json_encode(['account_name' => $data['account_name']]);
             }
         }

@@ -57,3 +57,4 @@ require(__DIR__ . '/routers/main.php');
 require(__DIR__ . '/routers/loginAndRegisterRoutes.php');
 require(__DIR__ . '/routers/search.php');
 require(__DIR__ . '/routers/friends.php');
+require(__DIR__ . '/routers/project.php');

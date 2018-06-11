@@ -28,7 +28,7 @@ $app->group('/search', function () {
                         echo "<p>" . $data['account_name'] . "</p>";
                         echo "<input type='hidden' id='search_user_id' value='$data[account_id]'/>";
                         if (CheckFriendRequestId($data['account_id'], $_POST['search_thisUser'], $searchName, $this->database) == true) {
-                            if($_POST['search_thisUser'] != $data['account_id']){
+                            if ($_POST['search_thisUser'] != $data['account_id']) {
                                 $arguments = array('userSearches' => $_POST['search_thisUser'], 'searchedUser' => $data['account_id']);
                                 $functionFill = htmlentities(json_encode($arguments));
                                 echo "<button type='button' onclick='AddFriend($functionFill)' id='$data[account_id]' class='btn friend-button'>" . "Add Friend" . "</button>";
@@ -40,9 +40,10 @@ $app->group('/search', function () {
                 } else {
                     echo "<p class='center-align'>" . "No accounts found." . "</p>";
                 }
-            }} else {
-                echo "<p class='center-align'>Please enter the name of the account you want to search for</p>";
             }
+        } else {
+            echo "<p class='center-align'>Please enter the name of the account you want to search for</p>";
+        }
     });
 });
 

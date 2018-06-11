@@ -1,32 +1,50 @@
 {% extends 'templates/base.twig' %} {% block body %}
-<div>
-    <!--Main Page Row-->
-    <div class="row">
-        <div id="container-projects" class="row">
-            <ul id="list-project">
-                {% if accountId is not null and accountId is not empty %}
-                <li class="project-wrapper">
-                    <a id="create_article-button" class="modal-trigger" href="#modal-createproject">Create New Project</a>
-                </li>    
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-    <!-- Modal Structure -->
-  <div id="modal-createproject" class="modal">
-    <div class="modal-content">
-      <h4>Create New Project</h4>
-    </div>
-    <div class="modal-footer">
-      <div class="divider"></div>
-      <button class="modal-close btn blue left waves-effect waves-light">Create</button>
-      <button class="modal-close btn blue left waves-effect waves-light">Cancel</button>
-    </div>
-  </div>
+    <div>
+        <!--Main Page Row-->
 
-</div>
+        <div class="row">
+            <div id="container-projects" class="row">
+                <ul id="list-project">
+                </ul>
+            </div>
+        </div>
+        <!-- Modal Structure -->
+        <div id="modal-createproject" class="modal">
+            <div class="modal-content">
+                <h4>Create New Project</h4>
+                <div id="form-project row">
+                    <div class="input-field">
+                        <input required onkeypress="LimitChars(event);" class="has-character-counter" type="text" id="project-name" data-length="32">
+                        <label for="project-name">Project Name</label>
+                    </div>
+                    <div class="input-field">
+                        <input required type="text" id="project-link">
+                        <label for="project-link">Project Name</label>
+                    </div>
+                    {#<div class="file-field input-field row">#}
+                        {#<div class="btn blue waves-effect waves-light">#}
+                            {#<span>File</span>#}
+                            {#<input type="file">#}
+                        {#</div>#}
+                        {#<div class="file-path-wrapper">#}
+                            {#<input id="project-image" class="file-path validate" type="text">#}
+                            {#<label class="helper-text" for="project-image">Project Image</label>#}
+                        {#</div>#}
+                    {#</div>#}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="divider"></div>
+                <button onclick="ValidateProjectForm();" class="btn blue left waves-effect waves-light">Create</button>
+                <button class="modal-close btn blue left waves-effect waves-light">Cancel</button>
+            </div>
+        </div>
+
+    </div>
 {% endblock %} {% block script %}
-<script>
-    SetActive('header-projects')
-</script>
+    <script>
+        SetActive('header-projects')
+        M.CharacterCounter.init(document.querySelectorAll('.has-character-counter'));
+        RetrieveProjects();
+    </script>
 {% endblock %}
