@@ -1,6 +1,7 @@
 {% extends 'templates/base.twig' %}
 
 {% block container %}
+    {% if rooms is not empty %}
     <div>
         <ul id="list-chatroom">
             {% for r in rooms %}
@@ -12,6 +13,10 @@
             {% endfor %}
         </ul>
     </div>
+    {% else %}
+        <h1 class="center">No chat rooms found</h1>
+        <h5 class="center">Click here to make a new one</h5>
+    {% endif %}
 {% endblock %}
 {% block script %}
     <script>
