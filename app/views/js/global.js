@@ -232,9 +232,8 @@ async function RetrieveProjects(){
         GetId('list-project').innerHTML += `
             <li class="project-wrapper">
                 <a class="left-align" href="${project.project_link}">${project.project_name}</a>
-                <div class="project-details">
                     <a class="right-align">Created By: ${project.project_creator}</a>
-                </div>
+                    <div class="clearfix"></div>
             </li>
         `;
     }

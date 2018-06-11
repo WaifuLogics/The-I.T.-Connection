@@ -48,7 +48,8 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
             'roomId' => $args['room_id']
         ]);
     } else {
-        return 'list chats that the user is in and give option to create new chats, PETER DESIGN THIS PAGE';
+        return $this->view->render($response, '')
+        //return 'list chats that the user is in and give option to create new chats, PETER DESIGN THIS PAGE';
     }
 
 })->setName("chat");

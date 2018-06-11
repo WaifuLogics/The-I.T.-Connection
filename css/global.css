@@ -17,6 +17,10 @@ body {
     max-resolution: 0px !important;
 }
 
+.clearfix{
+    clear: both;
+}
+
 /*
 
     --- Homepage ---
@@ -120,6 +124,10 @@ body {
     --- Project Styling ---
 
 */
+
+#container-projects{
+    overflow-y: scroll;
+}
 
 .project-wrapper {
     margin: 0 auto;
