@@ -175,27 +175,26 @@ function LimitChars(event) {
         event.preventDefault();
 }
 
-function ValidateProjectForm(){
+function ValidateProjectForm() {
     let title = GetId('project-name');
     let link = GetId('project-link');
 
-    if(title.value.length > 0){
+    if (title.value.length > 0) {
         title.className = "has-character-counter";
-        if(link.value.length > 0){
+        if (link.value.length > 0) {
             link.className = "has-character-counter";
             CreateNewProject(title, link);
-        }else{
+        } else {
             link.className += " invalid";
         }
-    }else{
+    } else {
         title.className += " invalid";
     }
 }
 
-function CreateNewProject(title, link){
+function CreateNewProject(title, link) {
     let bodyInfo = 'project_title=' + title.value +
         '&project_link=' + link.value + '&user_id={{ accountId }}';
-    console.log(bodyInfo);
     let headers = {
         method: 'post',
         headers: {
@@ -205,20 +204,20 @@ function CreateNewProject(title, link){
     };
     fetch("{{ path_for('project-create') }}", headers).then(response => response.json())
         .then(json => {
-            if(json.response == 'success'){
-                ClearProjectForm(title, link);
-                RetrieveProjects();
+                if (json.response == 'success') {
+                    ClearProjectForm(title, link);
+                    RetrieveProjects();
+                }
             }
-        }
-    );
+        );
 }
 
-function ClearProjectForm(title, link){
+function ClearProjectForm(title, link) {
     title.value = "";
     link.value = "";
 }
 
-async function RetrieveProjects(){
+async function RetrieveProjects() {
     let headers = {
         method: 'post',
         headers: {
@@ -228,7 +227,7 @@ async function RetrieveProjects(){
 
     let data = await (await fetch("{{ path_for('project-retrieve') }}", headers)).json();
     console.log(data);
-    for(let project of data.data){
+    for (let project of data.data) {
         GetId('list-project').innerHTML += `
             <li class="project-wrapper">
                 <a class="left-align" href="${project.project_link}">${project.project_name}</a>

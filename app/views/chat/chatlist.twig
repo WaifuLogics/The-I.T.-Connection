@@ -1,0 +1,27 @@
+{% extends 'templates/base.twig' %}
+
+{% block container %}
+    <div>
+        <ul id="list-chatroom">
+            {% for r in rooms %}
+                <li>
+                    <a href="{{ path_for('chat', { 'room_id':r.chat_room_id  }) }}">{{ r.chat_room_id }}</a>
+                    <div class="divider"></div>
+                    <p>User: <span class="askdjfhals">{{ r.account_id }}</span></p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        async function afasdfa() {
+            const elements = document.querySelectorAll(".askdjfhals");
+            for (let el of elements) {
+                let id = el.innerHTML;
+                el.innerHTML = await ReturnUserName(id);
+            }
+        }
+        afasdfa();
+    </script>
+{% endblock %}

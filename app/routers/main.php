@@ -43,12 +43,20 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
         return checkLoginStatus($response);
     }
 
-    if (isset($args['room_id']) && ((int)$args['room_id']) > 0) {
+    if (isset($args['room_id']) && /*((int)$args['room_id']) > 0*/ !empty($args['room_id'])) {
         return $this->view->render($response, 'chat/chatpage.twig', [
             'roomId' => $args['room_id']
         ]);
     } else {
-        return $this->view->render($response, '');
+
+        $query = "SELECT * FROM chat_participants WHERE account_id = :id";
+        $result = ReturnQueryResult($query, $this->database, [
+            'id' => $_SESSION['user_key']
+        ]);
+
+        return $this->view->render($response, 'chat/chatlist.twig', [
+            'rooms' => $result
+        ]);
         //return 'list chats that the user is in and give option to create new chats, PETER DESIGN THIS PAGE';
     }
 
