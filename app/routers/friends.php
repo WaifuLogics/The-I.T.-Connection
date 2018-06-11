@@ -111,17 +111,6 @@ $app->group('/friends', function () {
             $result = ReturnQueryResult("SELECT * FROM friends WHERE account_id = :id OR account_friended = :id",
                 $this->database, $queryArguments);
             $data = ['friends' => $result];
-
-//            if (count($result) <= 0) {
-//                /*Get all the data i need from the friends table*/
-//                $result2 = ReturnQueryResult("SELECT * FROM friends WHERE account_friended = :id",
-//                    $this->database, $queryArguments);
-//                if (count($result) > 0) {
-//                    $data = ['friends' => $result2 ];
-//                }
-//            } else {
-//                $data = ['friends' => $result ];
-//            }
         }
         return $response->withJson($data);
     })->setName('friend-retrieve');
@@ -134,7 +123,7 @@ $app->group('/friends', function () {
             $result = ReturnQueryResult($query, $this->database, ['id' => $id]);
             /* Return the JSON array of the result and give it back as a response */
             foreach($result as $data){
-                echo htmlentities(json_encode(['account_name' => $data['account_name']]));
+                echo json_encode(['account_name' => $data['account_name']]);
             }
         }
     })->setName('friend-getUserId');

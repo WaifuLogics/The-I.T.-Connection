@@ -118,8 +118,7 @@ function RetrieveFriends() {
     fetch("{{ path_for('friend-retrieve') }}", headers)
         .then(response => response.json())
             .then(async json => {
-            for (let friend in json.friends) {
-                console.log(friend.account_id);
+            for (let friend of json.friends) {
                 if (friend.account_id == userID) {
                     /* The requester sees the friend*/
                     for (let list of document.getElementsByClassName("friend-list")) {
@@ -139,7 +138,7 @@ function RetrieveFriends() {
                          <li class="container-user">
                              <div class="col s12 wrapper-user">
                                  <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                 <p>${await friend.account_id}</p>
+                                 <p>${await ReturnUserName(friend.account_id)}</p>
                              </div>
                          </li>
                      `;
@@ -150,6 +149,7 @@ function RetrieveFriends() {
 }
 
 async function ReturnUserName(str) {
+    console.log("1: " + str);
     let bodyInfo = 'type=getUserId&userId=' + str;
     let headers = {
         method: 'post',
@@ -160,13 +160,7 @@ async function ReturnUserName(str) {
     };
     /* Execute a fetch and wait for a response without stalling the DOM */
     const getUser = async identifier => await (await fetch("{{ path_for('friend-getUserId') }}", headers)).json();
-
-    try {
-        /* Wait for the response of the request and then return the username */
-        let userName = await getUser();
-        console.log(userName);
-        return userName.account_name;
-    } catch (exception) {
-        console.error(`Failed to retrieve user informations: (${exception})`);
-    }
+    /* Wait for the response of the request and then return the username */
+    let userName = await getUser();
+    return userName.account_name;
 }
