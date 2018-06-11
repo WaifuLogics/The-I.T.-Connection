@@ -44,11 +44,11 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
     }
 
     if (isset($args['room_id']) && ((int)$args['room_id']) > 0) {
-        return $this->view->render($response, 'chatpage.twig', [
+        return $this->view->render($response, 'chat/chatpage.twig', [
             'roomId' => $args['room_id']
         ]);
     } else {
-        return $this->view->render($response, '')
+        return $this->view->render($response, '');
         //return 'list chats that the user is in and give option to create new chats, PETER DESIGN THIS PAGE';
     }
 
