@@ -34,8 +34,8 @@ $app->group('/friends', function () {
 
     $this->post('/accept', function (Request $request, Response $response, $args) {
         /* Gets activated when someone accepts a friend request */
-        $requester = str_replace("'", "", $_POST['requester']);
-        $accepter = str_replace("'", "", $_POST['accepter']);
+        $requester = $_POST['requester'];
+        $accepter = $_POST['userId'];
 
         $friendAddName = "unset";
 
@@ -108,18 +108,20 @@ $app->group('/friends', function () {
             $userId = StripPostQuotes($_POST['userId']);
             /*Get all the data i need from the friends table*/
             $queryArguments = ['id' => $userId];
-            $result = ReturnQueryResult("SELECT * FROM friends WHERE account_id = :id ",
+            $result = ReturnQueryResult("SELECT * FROM friends WHERE account_id = :id OR account_friended = :id",
                 $this->database, $queryArguments);
-            if (count($result) <= 0) {
-                /*Get all the data i need from the friends table*/
-                $result2 = ReturnQueryResult("SELECT * FROM friends WHERE account_friended = :id ",
-                    $this->database, $queryArguments);
-                if (count($result) > 0) {
-                    $data = ['friends' => $result2 ];
-                }
-            } else {
-                $data = ['friends' => $result ];
-            }
+            $data = ['friends' => $result];
+
+//            if (count($result) <= 0) {
+//                /*Get all the data i need from the friends table*/
+//                $result2 = ReturnQueryResult("SELECT * FROM friends WHERE account_friended = :id",
+//                    $this->database, $queryArguments);
+//                if (count($result) > 0) {
+//                    $data = ['friends' => $result2 ];
+//                }
+//            } else {
+//                $data = ['friends' => $result ];
+//            }
         }
         return $response->withJson($data);
     })->setName('friend-retrieve');
@@ -131,8 +133,9 @@ $app->group('/friends', function () {
             $query = "SELECT account_name FROM accounts WHERE account_id = :id";
             $result = ReturnQueryResult($query, $this->database, ['id' => $id]);
             /* Return the JSON array of the result and give it back as a response */
-            $array = ['account_name' => $result['0']['account_name']];
-            echo json_encode($array);
+            foreach($result as $data){
+                echo htmlentities(json_encode(['account_name' => $data['account_name']]));
+            }
         }
     })->setName('friend-getUserId');
 });

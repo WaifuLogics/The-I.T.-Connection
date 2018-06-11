@@ -8,8 +8,9 @@ function SetActive(mode) {
 }
 
 /* This function searches for users */
-function Search(f_username, thisUser) {
-    // pathfor: {{ path_for('search') }}
+function Search(f_username) {
+    let thisUser = GetId('global-user_id').value;
+    console.log(thisUser);
     let bodyInfo = 'search-username=' + f_username + "&search_thisUser=" + thisUser;
     /*The headers used to post data*/
     let headers = {
@@ -72,7 +73,7 @@ function CheckFriendRequests() {
 
     fetch("{{ path_for('friend-check') }}", headers).then(response => response.text())
         .then(data => {
-            cont = document.getElementsByClassName('friend_request-list');
+            let cont = document.getElementsByClassName('friend_request-list');
             for (let i = 0; i < cont.length; i += 1) {
                 cont[i].innerHTML = data;
             }
@@ -83,7 +84,7 @@ function AcceptRequest(array) {
     let requester = array['requester'];
     let accepter = array['accepter'];
 
-    let bodyInfo = 'type=accept&requester=' + requester + '&accepter=' + accepter;
+    let bodyInfo = 'type=accept&requester=' + requester + '&userId=' + accepter;
     let headers = {
         method: 'post',
         headers: {
@@ -92,8 +93,9 @@ function AcceptRequest(array) {
         body: bodyInfo
     };
 
-    fetch("{{ path_for('friend-check') }}", headers).then(response => response.text())
+    fetch("{{ path_for('friend-accept') }}", headers).then(response => response.text())
         .then(data => {
+            console.log(data);
             if (data == 'success') {
                 M.toast({html: 'Friend Added', displayLength: '1500', inDuration: '600', outDuration: '600'});
                 CheckFriendRequests();
@@ -104,6 +106,7 @@ function AcceptRequest(array) {
 
 function RetrieveFriends() {
     let userID = "{{ accountId }}";
+    console.log(userID);
     let bodyInfo = 'type=retrieve&userId=' + userID;
     let headers = {
         method: 'post',
@@ -115,8 +118,8 @@ function RetrieveFriends() {
     fetch("{{ path_for('friend-retrieve') }}", headers)
         .then(response => response.json())
             .then(async json => {
-                console.log(json);
-            for (let friend of json.friends) {
+            for (let friend in json.friends) {
+                console.log(friend.account_id);
                 if (friend.account_id == userID) {
                     /* The requester sees the friend*/
                     for (let list of document.getElementsByClassName("friend-list")) {
@@ -136,7 +139,7 @@ function RetrieveFriends() {
                          <li class="container-user">
                              <div class="col s12 wrapper-user">
                                  <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                 <p>${await ReturnUserName(friend.account_id)}</p>
+                                 <p>${await friend.account_id}</p>
                              </div>
                          </li>
                      `;
@@ -161,8 +164,9 @@ async function ReturnUserName(str) {
     try {
         /* Wait for the response of the request and then return the username */
         let userName = await getUser();
+        console.log(userName);
         return userName.account_name;
     } catch (exception) {
-        console.error('Failed to retrieve user informations: (${exception})');
+        console.error(`Failed to retrieve user informations: (${exception})`);
     }
 }
