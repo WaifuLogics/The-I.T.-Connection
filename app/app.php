@@ -17,6 +17,7 @@ $container = $app->getContainer();
 // Register component on container
 $container['view'] = function ($c) {
     $view = new \Slim\Views\Twig(__DIR__ . '/views', [
+        'cache' => $GLOBALS['config']['twig']['cache']
         //'cache' => 'path/to/cache'
     ]);
 
