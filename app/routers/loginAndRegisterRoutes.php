@@ -1,4 +1,9 @@
 <?php
+
+use Slim\Http\{
+    Request, Response
+};
+
 $app->group('/register', function () {
     $this->get('[/]', function ($request, $response, $args) {
         return $this->view->render($response, 'register.twig');
