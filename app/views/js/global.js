@@ -17,3 +17,6 @@ function SetActive(mode) {
 
 /* Include js/parts/projects.js */
 {% include 'js/parts/projects.js' %}
+
+/* Include js/parts/chat.js */
+{% include 'js/parts/chat.js' %}

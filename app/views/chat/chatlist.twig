@@ -14,8 +14,15 @@
         </ul>
     </div>
     {% else %}
-        <h1 class="center">No chat rooms found</h1>
-        <h5 class="center">Click here to make a new one</h5>
+        <h2 class="center">No chat rooms found</h2>
+        <h5 class="center"><a href="#createNewChatRoom">Click here to make a new one</a></h5>
+        <div id="createNewChatRoom" class="modal">
+            <div class="modal-content">
+                <h3>Select Friends to Chat With</h3>
+                <ul id="list-chat_friends">
+                </ul>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
 {% block script %}

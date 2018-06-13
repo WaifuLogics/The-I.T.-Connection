@@ -86,16 +86,22 @@ function RetrieveFriends() {
     fetch("{{ path_for('friend-retrieve') }}", headers)
         .then(response => response.json())
         .then(async json => {
+            console.log(json);
             for (let friend of json.friends) {
+                /* Create a JSON object and encode it in base64 */
+                let createRoomJson = window.btoa(JSON.stringify({'id1' : friend.account_id, 'id2' : friend.account_friended}));
+                console.log(createRoomJson);
                 if (friend.account_id == userID) {
                     /* The requester sees the friend*/
                     for (let list of document.getElementsByClassName("friend-list")) {
                         list.innerHTML += `
                          <li class="container-user">
-                             <div class="col s12 wrapper-user">
-                                 <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                 <p>${await ReturnUserName(friend.account_friended)}</p>
-                             </div>
+                            <a href="{{ path_for('chat')}}">
+                                <div class="col s12 wrapper-user">
+                                    <img class="user-img" src="/img/users/test.png" alt="user image"/>
+                                    <p>${await ReturnUserName(friend.account_friended)}</p>
+                                </div>
+                            </a>
                          </li>
                      `;
                     }
@@ -104,10 +110,12 @@ function RetrieveFriends() {
                     for (let list of document.getElementsByClassName("friend-list")) {
                         list.innerHTML += `
                          <li class="container-user">
-                             <div class="col s12 wrapper-user">
-                                 <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                 <p>${await ReturnUserName(friend.account_id)}</p>
-                             </div>
+                            <a href="{{ path_for('chat')}}">
+                                <div class="col s12 wrapper-user">
+                                    <img class="user-img" src="/img/users/test.png" alt="user image"/>
+                                    <p>${await ReturnUserName(friend.account_id)}</p>
+                                </div>
+                            </a>
                          </li>
                      `;
                     }
