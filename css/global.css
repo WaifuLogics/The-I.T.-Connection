@@ -198,12 +198,14 @@ body {
 }
 
 .otherMessage {
-    background-color: rgb(54, 107, 142);
+    /*background-color: rgb(54, 107, 142);*/
+    background-color: rgb(197, 205, 210);
     border-radius: 10px;
 }
 
 .ownMessage {
-    background-color: rgb(102, 169, 194);
+    /*background-color: rgb(102, 169, 194);*/
+    background-color: rgb(166, 177, 181);
     border-radius: 10px;
 }
 
