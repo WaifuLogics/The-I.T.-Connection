@@ -18,9 +18,9 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
             'accountId' => $_SESSION['user_key']
         ]);
 
-        var_dump($result);
-
-        die();
+        if(count($result) < 1) {
+            return $response->withRedirect($this->router->pathFor("chat"));
+        }
 
         return $this->view->render($response, 'chat/chatpage.twig', [
             'roomId' => $args['room_id']
