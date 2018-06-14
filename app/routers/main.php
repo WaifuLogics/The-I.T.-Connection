@@ -36,32 +36,6 @@ $app->get('/projects', function (Request $request, Response $response, $args) {
     return $this->view->render($response, 'projectpage.twig');
 })->setName('projects');
 
-// route: /chat[/{room_id}]
-$app->get('/chat[/{room_id}]', function (Request $request, Response $response, $args) {
-
-    if (checkLoginStatus($response)) {
-        return checkLoginStatus($response);
-    }
-
-    if (isset($args['room_id']) && /*((int)$args['room_id']) > 0*/ !empty($args['room_id'])) {
-        return $this->view->render($response, 'chat/chatpage.twig', [
-            'roomId' => $args['room_id']
-        ]);
-    } else {
-
-        $query = "SELECT * FROM chat_participants WHERE account_id = :id";
-        $result = ReturnQueryResult($query, $this->database, [
-            'id' => $_SESSION['user_key']
-        ]);
-
-        return $this->view->render($response, 'chat/chatlist.twig', [
-            'rooms' => $result
-        ]);
-        //return 'list chats that the user is in and give option to create new chats, PETER DESIGN THIS PAGE';
-    }
-
-})->setName("chat");
-
 $app->get('/js/global.js', function (Request $request, Response $response, $args) {
     return $this->view->render(
         $response->withHeader('Content-type', 'application/javascript'), 'js/global.js');

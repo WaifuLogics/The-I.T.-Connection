@@ -86,11 +86,9 @@ function RetrieveFriends() {
     fetch("{{ path_for('friend-retrieve') }}", headers)
         .then(response => response.json())
         .then(async json => {
-            console.log(json);
+            document.getElementsByClassName("friend-list").innerHTML = "";
             for (let friend of json.friends) {
                 /* Create a JSON object and encode it in base64 */
-                let createRoomJson = window.btoa(JSON.stringify({'id1' : friend.account_id, 'id2' : friend.account_friended}));
-                console.log(createRoomJson);
                 if (friend.account_id == userID) {
                     /* The requester sees the friend*/
                     for (let list of document.getElementsByClassName("friend-list")) {

@@ -15,10 +15,10 @@
     </div>
     {% else %}
         <h2 class="center">No chat rooms found</h2>
-        <h5 class="center"><a href="#createNewChatRoom">Click here to make a new one</a></h5>
+        <h5 class="center"><a href="#createNewChatRoom" class=" modal-trigger">Click here to make a new chat room</a></h5>
         <div id="createNewChatRoom" class="modal">
             <div class="modal-content">
-                <h3>Select Friends to Chat With</h3>
+                <h4>Select Friends to Chat With</h4>
                 <ul id="list-chat_friends">
                 </ul>
             </div>
@@ -35,5 +35,6 @@
             }
         }
         afasdfa();
+        RetrieveAllFriends();
     </script>
 {% endblock %}
