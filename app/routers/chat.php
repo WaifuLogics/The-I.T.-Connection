@@ -41,6 +41,25 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
 })->setName("chat");
 
 $app->post('/chat-create', function (Request $request, Response $response, $args){
+    if(isset($_POST['users'])){
+        /* Decode the json object back to a php asociative array (hence the true) */
+        $users = json_decode(base64_decode($_POST['users']), true);
+        $roomId = "chat_".time();
+        foreach($users['users'] as $user){
+            /* Insert every user into the chat_participants table */
+            $query = "INSERT INTO chat_participants (account_id, chat_room_id, chat_room_name)
+                      VALUES(:userId, :roomId, :roomName)";
+            $queryArgs = [
+                'userId' => $user,
+                'roomId' => $roomId,
+                'roomName' => $_POST['roomName']
+            ];
+            ExecuteQuery($query, $this->database, $queryArgs);
+        }
+        return $response->withJson(['response' => 'success']);
+    }else{
+        return $response->withJson(['response' => "access denied"]);
+    }
 })->setName("chat-create");
 
 $app->get('/chat-retrieve', function (Request $request, Response $response, $args){

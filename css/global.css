@@ -218,7 +218,17 @@ body {
 .friend-btn {
     margin: 12px auto 12px auto;
     padding: 8px;
-    width: 60%;
+    width: 50%;
     display: block !important;
 }
 
+#container-room_name{
+    width: 50%;
+    margin: 0 auto;
+}
+
+#container-select_friends h4{
+    margin-top: 0px !important;
+    display: block;
+    text-align: center;
+}
