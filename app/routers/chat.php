@@ -10,8 +10,18 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
         return checkLoginStatus($response);
     }
 
-    if (isset($args['room_id']) && /*((int)$args['room_id']) > 0*/
-        !empty($args['room_id'])) {
+    if (isset($args['room_id']) && !empty($args['room_id'])) {
+
+        $query = "SELECT * FROM chat_participants WHERE chat_room_id = :roomId AND account_id = :accountId";
+        $result = ReturnQueryResult($query, $this->database, [
+            'roomId' => $args['room_id'],
+            'accountId' => $_SESSION['user_key']
+        ]);
+
+        var_dump($result);
+
+        die();
+
         return $this->view->render($response, 'chat/chatpage.twig', [
             'roomId' => $args['room_id']
         ]);
