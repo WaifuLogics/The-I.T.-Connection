@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `chat_room_messages` (
   `chat_room_id` varchar(255) NOT NULL,
   `account_name` varchar(255) NOT NULL,
   `chat_message` longtext NOT NULL,
-  `chat_date` datetime NOT NULL,
+  `chat_date`  varchar(50) NOT NULL,
   PRIMARY KEY (`chat_message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
