@@ -11,6 +11,28 @@
                     <p>User: <span class="askdjfhals">{{ r.account_id }}</span></p>
                 </li>
             {% endfor %}
+            <h5 class="center"><a href="#createNewChatRoom" class=" modal-trigger">Click here to make a new chat room</a></h5>
+            <div id="createNewChatRoom" class="modal">
+                <div class="modal-content">
+                    <h4 class="center-align">Room Name</h4>
+                    <div id="container-room_name" class="input-field row">
+                        <input required onkeypress="LimitChars(event);" class="has-character-counter" type="text" id="chat_room_name" data-length="32">
+                        <label for="chat_room_name">Chatroom Name</label>
+                    </div>
+                    <div id="container-select_friends">
+                        <h4 class="center-align">Select Friends to Chat With</h4>
+                        <ul id="list-chat_friends">
+                        </ul>
+                        <input type="hidden" class="addFriend hidden" data-userId="{{ accountId }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="divider"></div>
+                    <button onclick="CreateChatRoom();" class="btn blue left waves-effect waves-light">Create Chatroom</button>
+                    <button onclick="ClearCreateChatRoomForm()" class="btn modal-close blue left waves-effect waves-light">Cancel</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
         </ul>
     </div>
     {% else %}

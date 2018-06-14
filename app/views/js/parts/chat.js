@@ -109,6 +109,7 @@ function CreateChatRoom() {
                     outDuration: '600'
                 });
                 ClearCreateChatRoomForm();
+                window.location = "{{ path_for('chat') }}";
             }
         });
 }
