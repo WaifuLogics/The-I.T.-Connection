@@ -61,22 +61,24 @@ async function RetrieveProjects() {
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
     };
-
-    let data = await (await fetch("{{ path_for('project-retrieve') }}", headers)).json();
-    console.log(data);
-    for (let project of data.data) {
-        GetId('list-project').innerHTML += `
-            <li class="project-wrapper">
-                <a class="left-align" href="${project.project_link}">${project.project_name}</a>
-                    <a class="right-align">Created By: ${project.project_creator}</a>
-                    <div class="clearfix"></div>
-            </li>
-        `;
-    }
-    GetId('list-project').innerHTML += `
-            <li class="project-wrapper">
+    GetId('container-projects').innerHTML += `
+            <li id="btn-create_project">
                 <a id="create_article-button" class="modal-trigger" href="#modal-createproject">Create New
                 Project</a>
             </li>
         `;
+    let data = await (await fetch("{{ path_for('project-retrieve') }}", headers)).json();
+    GetId('list-project').innerHTML = "";
+    console.log(data);
+    for (let project of data.data) {
+        GetId('list-project').innerHTML += `
+            <li data-user="${project.project_creator}" class="project-wrapper search">
+                <a href="${project.project_link}">
+                    <p class="left-align">${project.project_name}</p>
+                    <p class="left-align">Created By: ${await ReturnUserName(project.project_creator)}</p>
+                    <div class="clearfix"></div>
+                </a>
+            </li>
+        `;
+    }
 }
