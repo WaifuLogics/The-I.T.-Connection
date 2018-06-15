@@ -24,7 +24,7 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
 
         return $this->view->render($response, 'chat/chatpage.twig', [
             'roomId' => $args['room_id'],
-            'data' => $result
+            'data' => $result[0]
         ]);
     } else {
 
