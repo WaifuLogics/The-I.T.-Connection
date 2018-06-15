@@ -29,10 +29,15 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
 
         $rooms = [];
 
-        $query = "SELECT * FROM chat_participants WHERE account_id = :id";
+        $query = "SELECT c1.* , c2.* 
+                  FROM chat_participants c1 
+                  INNER JOIN chat_participants c2 
+                  WHERE c1.account_id = :id AND c1.chat_room_id = c2.chat_room_id";
         $result = ReturnQueryResult($query, $this->database, [
             'id' => $_SESSION['user_key']
         ]);
+
+        var_dump($result);
 
 
         foreach ($result as $res) {
