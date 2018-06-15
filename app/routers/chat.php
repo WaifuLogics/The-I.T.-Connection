@@ -27,10 +27,20 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
         ]);
     } else {
 
+        $rooms = [];
+
         $query = "SELECT * FROM chat_participants WHERE account_id = :id";
         $result = ReturnQueryResult($query, $this->database, [
             'id' => $_SESSION['user_key']
         ]);
+
+        var_dump($result);
+
+        foreach ($result as $res) {
+            $rooms[$res['chat_room_id']]['users'][] = $res['account_id'];
+        }
+
+        die();
 
         return $this->view->render($response, 'chat/chatlist.twig', [
             'rooms' => $result
