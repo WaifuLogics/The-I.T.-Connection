@@ -34,7 +34,7 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
             'id' => $_SESSION['user_key']
         ]);
 
-        var_dump($result);
+        var_dump($rooms);
 
         foreach ($result as $res) {
             $rooms[$res['chat_room_id']]['users'][] = $res['account_id'];
