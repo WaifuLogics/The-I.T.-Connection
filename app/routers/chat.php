@@ -29,7 +29,7 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
 
         $rooms = [];
 
-        $query = "SELECT c1.* , c2.* 
+        $query = "SELECT * 
                   FROM chat_participants c1 
                   INNER JOIN chat_participants c2 
                   WHERE c1.account_id = :id AND c1.chat_room_id = c2.chat_room_id";
@@ -37,19 +37,17 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
             'id' => $_SESSION['user_key']
         ]);
 
-        var_dump($result);
-
-
         foreach ($result as $res) {
+            $rooms[$res['chat_room_id']]['name'] = $res['chat_room_name'];
+            $rooms[$res['chat_room_id']]['id'] = $res['chat_room_id'];
             $rooms[$res['chat_room_id']]['users'][] = $res['account_id'];
         }
 
 
         var_dump($rooms);
-        die();
 
         return $this->view->render($response, 'chat/chatlist.twig', [
-            'rooms' => $result
+            'rooms' => $rooms
         ]);
         //return 'list chats that the user is in and give option to create new chats, PETER DESIGN THIS PAGE';
     }
