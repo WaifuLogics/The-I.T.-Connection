@@ -232,3 +232,9 @@ body {
     display: block;
     text-align: center;
 }
+
+.container-chat_room{
+    padding: 12px;
+    margin: 12px 0px 12px 0px;
+    border: solid 1px lightgrey !important;
+}
