@@ -43,9 +43,6 @@ $app->get('/chat[/{room_id}]', function (Request $request, Response $response, $
             $rooms[$res['chat_room_id']]['users'][] = $res['account_id'];
         }
 
-
-        var_dump($rooms);
-
         return $this->view->render($response, 'chat/chatlist.twig', [
             'rooms' => $rooms
         ]);
