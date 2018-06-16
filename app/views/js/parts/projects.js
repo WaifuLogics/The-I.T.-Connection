@@ -72,7 +72,7 @@ async function RetrieveProjects() {
     console.log(data);
     for (let project of data.data) {
         GetId('list-project').innerHTML += `
-            <li data-user="${project.project_creator}" class="project-wrapper search">
+            <li class="project-wrapper">
                 <a href="${project.project_link}">
                     <p class="left-align">${project.project_name}</p>
                     <p class="left-align">Created By: ${await ReturnUserName(project.project_creator)}</p>

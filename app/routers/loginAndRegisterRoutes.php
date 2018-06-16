@@ -133,7 +133,7 @@ $app->group('/authorization', function () {
                             ]));
                         }
                     } else {
-                        return $response->withRedirect($this->router->pathFor('error'));
+                        return $response->withRedirect($this->router->pathFor('error', ['error' => 'password']));
                     }
 
                 }

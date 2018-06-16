@@ -263,3 +263,33 @@ body {
     margin: 12px 0px 12px 0px;
     border: solid 1px lightgrey !important;
 }
+
+/* 
+
+    --- Search Styling ---
+
+*/
+.search-obj{
+    margin: 12px 0px 12px 0px;
+    max-width: 256px;
+}
+
+.search-obj button{
+    margin: 4px 0px 0px 0px;
+    width: 100%;
+}
+
+.search-obj a{
+    padding: 12px;
+    background-color: #f8f8f8;
+    border: solid 2px lightgrey;
+    transition: background-color 0.3s ease;
+}
+
+.search-obj a:hover{
+    background-color: white;
+}
+
+.search-obj *{
+    display: block;
+}

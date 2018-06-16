@@ -84,7 +84,6 @@ function CreateChatRoom() {
     let jsonText = {
         "users": json
     };
-    console.log(jsonText);
     let bodyInfo = "roomName=" + GetId('chat_room_name').value + "&users=" + window.btoa(JSON.stringify(jsonText));
     let options = {
         method: 'post',
@@ -121,7 +120,6 @@ function ClearCreateChatRoomForm(){
     for(let elem of users){
         /* Check if the elements contain a class of addFriend, if so, remove the class */
         if(elem.classList.contains('addFriend') && !elem.classList.contains('hidden')){
-            console.log(elem.value);
             elem.innerHTML = "Add " + elem.value;   
             elem.classList.remove("addFriend");
         }

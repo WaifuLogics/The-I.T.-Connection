@@ -24,8 +24,8 @@ $app->group('/search', function () {
                 if (count($result) > 0) {
                     foreach ($result as $data) {
                         /* Display all of the found accounts */
-                        echo "<div class='row center-align'>";
-                        echo "<p>" . $data['account_name'] . "</p>";
+                        echo "<div class='row center-align search-obj'>";
+                        echo "<a href='../account/$data[account_name]'>" . $data['account_name'] . "</a>";
                         echo "<input type='hidden' id='search_user_id' value='$data[account_id]'/>";
                         if (CheckFriendRequestId($data['account_id'], $_POST['search_thisUser'], $searchName, $this->database) == true) {
                             if ($_POST['search_thisUser'] != $data['account_id']) {

@@ -24,12 +24,16 @@ $app->get('/thanks/{message}', function (Request $request, Response $response, $
     );
 })->setName('thanks');
 
-$app->get('/error', function (Request $request, Response $response, $args) {
-    return $this->view->render($response->withStatus(200), 'error.twig');
+$app->get('/error[/{error}]', function (Request $request, Response $response, $args) {
+    return $this->view->render($response->withStatus(200), 'error.twig', ['error' => $args['error']]);
 })->setName('error');
 
-$app->get('/account', function (Request $request, Response $response, $args) {
-    return $this->view->render($response, 'account.twig');
+$app->get('/account[/{id}]', function (Request $request, Response $response, $args) {
+    if(isUserCheck($args['id'], $this->database) == true){
+        return $this->view->render($response, 'account.twig', ['id' => $args['id']]);
+    }else{
+        return $this->view->render($response, 'error.twig', ['error' => 'noaccount']);
+    }
 })->setName('account');
 
 $app->get('/projects', function (Request $request, Response $response, $args) {
@@ -50,3 +54,11 @@ function checkLoginStatus(Response $request)
     } else return false;
 }
 
+function isUserCheck($arg, $db){
+    $result = ReturnQueryResult("SELECT account_name FROM accounts WHERE account_name = :name", $db, ['name' => $arg]);
+    if(count($result) > 0){
+        return true;
+    }else{
+        return false;
+    }
+}

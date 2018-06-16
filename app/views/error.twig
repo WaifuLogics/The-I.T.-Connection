@@ -2,5 +2,12 @@
 
 {% block container %}
 <h3>Oh no!</h3>
-<h5>An error occured during the registration process, please try again later.</h5>
+{% if error == "noaccount" %}
+    <h5>No user is found with that account name</h5>
+{% elseif error == "register" %}
+    <h5>Something went wrong during the registration process</h5>
+{% elseif error == "password" %}
+    <h5>The passwords didn't match</h5>
+    <a href="{{ path_for('register') }}">Click here to go back</a>
+{% endif %}
 {% endblock %}
