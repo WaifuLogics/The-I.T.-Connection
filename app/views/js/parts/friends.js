@@ -92,26 +92,29 @@ function RetrieveFriends() {
                 if (friend.account_id == userID) {
                     /* The requester sees the friend*/
                     for (let list of document.getElementsByClassName("friend-list")) {
+                        let id = await ReturnUserName(friend.account_friended);
                         list.innerHTML += `
                          <li class="container-user">
-                            <a href="{{ path_for('chat')}}">
+                            <a href="{{ path_for('account', {'id': '${id}'}) }}">
                                 <div class="col s12 wrapper-user">
                                     <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                    <p>${await ReturnUserName(friend.account_friended)}</p>
+                                    <p>${id}</p>
                                 </div>
                             </a>
                          </li>
                      `;
                     }
                 } else {
+                    let id = await ReturnUserName(friend.account_id);
+                    console.log(id);
                     /* The accepter sees the friend*/
                     for (let list of document.getElementsByClassName("friend-list")) {
                         list.innerHTML += `
                          <li class="container-user">
-                            <a href="{{ path_for('chat')}}">
+                            <a href="{{ path_for('account', {'id': '${id}'}) }}">
                                 <div class="col s12 wrapper-user">
                                     <img class="user-img" src="/img/users/test.png" alt="user image"/>
-                                    <p>${await ReturnUserName(friend.account_id)}</p>
+                                    <p>${id}</p>
                                 </div>
                             </a>
                          </li>
