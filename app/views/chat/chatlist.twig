@@ -8,7 +8,8 @@
                 <li class="container-chat_room">
                     <a href="{{ path_for('chat', { 'room_id': r.id  }) }}">{{ r.name }}</a>
                     <div class="divider"></div>
-                    <p>Users: {% for user in r.users %}<span class="askdjfhals">{{ user }}</span>, {% endfor %}</p>
+                    {#<p>Users: {% for user in r.users %}<span class="askdjfhals">{{ user }}</span>, {% endfor %}</p>#}
+                    <p>Users: <span class="askdjfhals">{{ r.users | join('</span>, <span class="askdjfhals">') }}</span>,</p>
                 </li>
             {% endfor %}
             <h5 class="center"><a href="#createNewChatRoom" class=" modal-trigger">Click here to make a new chat room</a></h5>
