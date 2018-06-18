@@ -1,5 +1,8 @@
 <?php
 
+// IMPORTANT
+// Start the local server with: php -S 127.0.0.1:8080 index.php
+
 if (PHP_SAPI == 'cli-server') {
     $_SERVER['SCRIPT_NAME'] = '/index.php';
 }
