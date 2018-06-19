@@ -85,12 +85,12 @@ $app->post('/login', function ($request, $response, $args) {
                 return $response->withRedirect($this->router->pathFor('home'));
             } else {
                 $_SESSION['error'] = "user-crednotcorrect";
-                return $response->withRedirect($this->router->pathFor('home'));
+                return $response->withRedirect($this->router->pathFor('error', ['error' => 'password']));
             }
         }
     } else {
         $_SESSION['error'] = "user-notexist";
-        return $response->withRedirect($this->router->pathFor('home'));
+        return $response->withRedirect($this->router->pathFor('error', ['error' => 'noaccount']));
     }
 
 })->setName('login');
@@ -141,12 +141,12 @@ $app->group('/authorization', function () {
                 }
             } else {
                 return $response->withRedirect($this->router->pathFor('error', [
-                    'message' => 'password'
+                    'error' => 'noauth'
                 ]));
             }
         } else {
             return $response->withRedirect($this->router->pathFor('error', [
-                'message' => 'noaccount'
+                'error' => 'noauth'
             ]));
         }
 
