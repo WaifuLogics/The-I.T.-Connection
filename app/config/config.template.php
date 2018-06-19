@@ -8,5 +8,9 @@ $GLOBALS['config'] = [
     ],
     'twig' => [
         'cache' => false
+    ],
+    'mailgun' => [
+        'key' => '',
+        'domain' => ''
     ]
 ];

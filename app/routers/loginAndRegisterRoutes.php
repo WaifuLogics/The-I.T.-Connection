@@ -1,5 +1,6 @@
 <?php
 
+use Mailgun\Mailgun;
 use Slim\Http\{
     Request, Response
 };
@@ -30,12 +31,19 @@ $app->group('/register', function () {
 
                 /*Mail Details*/
                 $to = $email;
+                $from = 'theitconnection@duncte123.me';
                 $subject = "The I.T. Connection Authorization Code";
                 $txt = "Thank you for registering on The I.T. Connection!\n\nThis code expires after 5 minutes\nIf your code expires, please register again at our website.\n\nAuthorization code: " . $authCode;
-                $headers = "From: theitconnection@gmail.com" . "\r\n";
+                //$headers = "From: theitconnection@gmail.com" . "\r\n";
 
                 /*Send the mail*/
-                mail($to, $subject, $txt, $headers);
+                $mg = Mailgun::create($GLOBALS['config']['mailgun']['key']);
+                $mg->messages()->send($GLOBALS['config']['mailgun']['domain'], [
+                    'from'    => $from,
+                    'to'      => $to,
+                    'subject' => $subject,
+                    'text'    => $txt
+                ]);
 
                 /*Insert the authorization details in the database with PDO*/
                 $stmt = $this->database->prepare("INSERT INTO authorization
