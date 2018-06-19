@@ -192,6 +192,18 @@ body {
     background-color: #F9F9F9;
 }
 
+.project-wrapper i{
+    z-index: 100;
+    padding: 12px 12px 0px 0px;
+    color: black;
+    transition: color 0.3s ease;
+}
+
+.project-wrapper i:hover{
+    color: #9F9F9F;
+    cursor: pointer;
+}
+
 .project-wrapper .clicker{
     padding: 0px;
 }

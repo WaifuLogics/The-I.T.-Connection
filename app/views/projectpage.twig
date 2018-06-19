@@ -33,6 +33,12 @@
     </div>
 {% endblock %} {% block script %}
     <script>
+    GetId('container-projects').innerHTML += `
+            <li id="btn-create_project">
+                <a id="create_article-button" class="modal-trigger" href="#modal-createproject">Create New
+                Project</a>
+            </li>
+        `;
         SetActive('header-projects')
         M.CharacterCounter.init(document.querySelectorAll('.has-character-counter'));
         RetrieveProjects();

@@ -106,7 +106,6 @@ function RetrieveFriends() {
                     }
                 } else {
                     let id = await ReturnUserName(friend.account_id);
-                    console.log(id);
                     /* The accepter sees the friend*/
                     for (let list of document.getElementsByClassName("friend-list")) {
                         list.innerHTML += `

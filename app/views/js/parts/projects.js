@@ -44,6 +44,7 @@ function CreateNewProject(title, link) {
                 if (json.response == 'success') {
                     ClearProjectForm(title, link);
                     RetrieveProjects();
+                    M.toast({html: "Project Created", displayLength: '1500', inDuration: '600', outDuration: '600'});
                 }
             }
         );
@@ -61,24 +62,61 @@ async function RetrieveProjects() {
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
         },
     };
-    GetId('container-projects').innerHTML += `
-            <li id="btn-create_project">
-                <a id="create_article-button" class="modal-trigger" href="#modal-createproject">Create New
-                Project</a>
-            </li>
-        `;
     let data = await (await fetch("{{ path_for('project-retrieve') }}", headers)).json();
     GetId('list-project').innerHTML = "";
-    console.log(data);
     for (let project of data.data) {
-        GetId('list-project').innerHTML += `
-            <li class="project-wrapper">
-                <a href="${project.project_link}">
-                    <p class="left-align">${project.project_name}</p>
-                    <p class="left-align">Created By: ${await ReturnUserName(project.project_creator)}</p>
-                    <div class="clearfix"></div>
-                </a>
-            </li>
-        `;
+        /* Check if the user owns the project, if so, add a delete icon to the project container */
+        if(project.project_creator == "{{ accountId }}"){
+            GetId('list-project').innerHTML += `
+                <li class="project-wrapper">
+                <i id="${project.project_id}" data-creator="${project.project_creator}" onclick="DeleteProject(this.id);" class="material-icons right tooltipped" data-position="bottom" data-tooltip="Delete Project">clear</i>
+                    <a href="${project.project_link}">
+                        <p class="left-align">${project.project_name}</p>
+                        <p class="left">Created By: ${await ReturnUserName(project.project_creator)}</p>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+            `;
+        }else{
+            GetId('list-project').innerHTML += `
+                <li class="project-wrapper">
+                    <a href="${project.project_link}">
+                        <p class="left-align">${project.project_name}</p>
+                        <p class="left">Created By: ${await ReturnUserName(project.project_creator)}</p>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+            `;
+        }
+        
+    }
+}
+
+async function DeleteProject(projectId){
+    /* Check if the user owns the project that is requested to be deleted */
+    let creator;
+    try{
+        creator = GetId(projectId).getAttribute('data-creator'); 
+    }catch{
+        M.toast({html: "Could Not Delete Project,<br/>User Does Not Own This Project", displayLength: '1500', inDuration: '600', outDuration: '600'});        
+        return;
+    }
+
+    let bodyInfo = 'project=' + projectId + "&creator=" + creator;
+    let headers = {
+        method: 'post',
+        headers: {
+            "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        body: bodyInfo
+    };
+
+    let data = await(await fetch("{{ path_for('project-delete') }}", headers)).json();
+    console.log(data);
+    if(data.response == "success"){
+        M.toast({html: "Project Deleted", displayLength: '1500', inDuration: '600', outDuration: '600'});
+        RetrieveProjects();
+    }else{
+        M.toast({html: "Could Not Delete Project", displayLength: '1500', inDuration: '600', outDuration: '600'});
     }
 }

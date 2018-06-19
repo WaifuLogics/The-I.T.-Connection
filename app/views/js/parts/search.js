@@ -1,7 +1,6 @@
 /* This function searches for users */
 function Search(f_username) {
     let thisUser = "{{ accountId }}";
-    console.log(thisUser);
     let bodyInfo = 'search-username=' + f_username + "&search_thisUser=" + thisUser;
     /*The headers used to post data*/
     let headers = {
