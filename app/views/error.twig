@@ -9,5 +9,8 @@
 {% elseif error == "password" %}
     <h5>The passwords didn't match</h5>
     <a href="{{ path_for('register') }}">Click here to go back</a>
+    {% elseif error == "noauth" %}
+    <h5>The authorization code entered does not exist</h5>
+    <a href="{{ path_for('authorization') }}">Click here to go back</a>
 {% endif %}
 {% endblock %}
