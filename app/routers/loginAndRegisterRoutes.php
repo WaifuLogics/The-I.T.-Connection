@@ -60,10 +60,12 @@ $app->group('/register', function () {
                 /*Redirect the user*/
                 return $response->withRedirect($this->router->pathFor('thanks', [
                     'message' => 'register'
-                ]), 301);
+                ]), 302);
             } else {
                 /*Redirect the user*/
-                return $response->withRedirect($this->router->pathFor('error'), 301);
+                return $response->withRedirect($this->router->pathFor('thanks', [
+                    'message' => 'noaccount'
+                ]), 302);
             }
         }
         return null;
@@ -138,10 +140,14 @@ $app->group('/authorization', function () {
 
                 }
             } else {
-                return $response->withRedirect($this->router->pathFor('error'));
+                return $response->withRedirect($this->router->pathFor('error', [
+                    'message' => 'password'
+                ]));
             }
         } else {
-            return $response->withRedirect($this->router->pathFor('error'));
+            return $response->withRedirect($this->router->pathFor('error', [
+                'message' => 'noaccount'
+            ]));
         }
 
     });
