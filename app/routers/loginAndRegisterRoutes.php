@@ -1,6 +1,5 @@
 <?php
 
-use Mailgun\Mailgun;
 use Slim\Http\{
     Request, Response
 };
