@@ -27,9 +27,8 @@ async function ReturnUserName(str) {
         },
         body: bodyInfo
     };
-    /* Execute a fetch and wait for a response without stalling the DOM */
-    const getUser = async identifier => await (await fetch("{{ path_for('friend-getUserId') }}", headers)).json();
     /* Wait for the response of the request and then return the username */
-    let userName = await getUser();
+    let userName = await (await fetch("{{ path_for('friend-getUserId') }}", headers)).json();
+    console.log(userName.account_name);
     return userName.account_name;
 }

@@ -23,7 +23,11 @@ $app->group('/project', function () {
     $this->post('/retrieve', function (Request $request, Response $response, $args){
         $query = "SELECT * FROM projects";
         $result = ReturnQueryResult($query, $this->database);
-        $data = ['data' => $result];
+        if(count($result) > 0){
+            $data = ['data' => $result];
+        }else{
+            $data = ['data' => 'empty'];
+        }
         return $response->withJson($data);
     })->setname('project-retrieve');
 

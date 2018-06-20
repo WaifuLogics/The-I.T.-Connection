@@ -20,7 +20,15 @@ function ValidateProjectForm() {
         title.className = "has-character-counter";
         if (link.value.length > 0) {
             link.className = "has-character-counter";
-            CreateNewProject(title, link);
+
+            /* Grab a substring from the value and check if it is a github url */
+            let linkVal = link.value;
+            let substr = linkVal.substring(0, 1);
+            if(substr == 'https://github.com/'){
+                CreateNewProject(title, link);
+            }else{
+                M.toast({html: "Please enter a github link,<br/> Example: https://github.com/user/repository", displayLength: '4500', inDuration: '600', outDuration: '600'});
+            }
         } else {
             link.className += " invalid";
         }
@@ -63,32 +71,39 @@ async function RetrieveProjects() {
         },
     };
     let data = await (await fetch("{{ path_for('project-retrieve') }}", headers)).json();
-    GetId('list-project').innerHTML = "";
-    for (let project of data.data) {
-        /* Check if the user owns the project, if so, add a delete icon to the project container */
-        if(project.project_creator == "{{ accountId }}"){
-            GetId('list-project').innerHTML += `
-                <li class="project-wrapper">
-                <i id="${project.project_id}" data-creator="${project.project_creator}" onclick="DeleteProject(this.id);" class="material-icons right tooltipped" data-position="bottom" data-tooltip="Delete Project">clear</i>
-                    <a href="${project.project_link}">
-                        <p class="left-align">${project.project_name}</p>
-                        <p class="left">Created By: ${await ReturnUserName(project.project_creator)}</p>
-                        <div class="clearfix"></div>
-                    </a>
-                </li>
-            `;
-        }else{
-            GetId('list-project').innerHTML += `
-                <li class="project-wrapper">
-                    <a href="${project.project_link}">
-                        <p class="left-align">${project.project_name}</p>
-                        <p class="left">Created By: ${await ReturnUserName(project.project_creator)}</p>
-                        <div class="clearfix"></div>
-                    </a>
-                </li>
-            `;
+    if(data.data == "empty"){
+        GetId('list-project').innerHTML = "<h5 class='center-align'>No Projects Found.</h5>";
+    }else{
+        GetId('list-project').innerHTML = "";
+        for (let project of data.data) {
+            if(project.project_creator == ""){
+                return;
+            }
+            /* Check if the user owns the project, if so, add a delete icon to the project container */
+            if(project.project_creator == "{{ accountId }}"){
+                GetId('list-project').innerHTML += `
+                    <li class="project-wrapper">
+                    <i id="${project.project_id}" data-creator="${project.project_creator}" onclick="DeleteProject(this.id);" class="material-icons right tooltipped" data-position="bottom" data-tooltip="Delete Project">clear</i>
+                        <a href="${project.project_link}" target="_blank">
+                            <p class="left-align">${project.project_name}</p>
+                            <p class="left">Created By: ${await ReturnUserName(project.project_creator)}</p>
+                            <div class="clearfix"></div>
+                        </a>
+                    </li>
+                `;
+            }else{
+                GetId('list-project').innerHTML += `
+                    <li class="project-wrapper">
+                        <a href="${project.project_link}" target="_blank">
+                            <p class="left-align">${project.project_name}</p>
+                            <p class="left">Created By: ${await ReturnUserName(project.project_creator)}</p>
+                            <div class="clearfix"></div>
+                        </a>
+                    </li>
+                `;
+            }
+            
         }
-        
     }
 }
 
