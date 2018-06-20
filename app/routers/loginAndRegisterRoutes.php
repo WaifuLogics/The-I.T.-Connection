@@ -37,13 +37,14 @@ $app->group('/register', function () {
                 //$headers = "From: theitconnection@gmail.com" . "\r\n";
 
                 /*Send the mail*/
-                $mg = Mailgun::create($GLOBALS['config']['mailgun']['key']);
-                $mg->messages()->send($GLOBALS['config']['mailgun']['domain'], [
-                    'from'    => $from,
-                    'to'      => $to,
-                    'subject' => $subject,
-                    'text'    => $txt
-                ]);
+                $c = $GLOBALS['config'];
+                $mailer = getMailer();
+
+                $mailer->Subject = $subject;
+                $mailer->addAddress($to);
+                $mailer->CharSet = 'UTF-8';
+                $mailer->msgHTML($txt);
+                $mailer->send();
 
                 /*Insert the authorization details in the database with PDO*/
                 $stmt = $this->database->prepare("INSERT INTO authorization
