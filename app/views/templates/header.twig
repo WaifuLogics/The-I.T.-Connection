@@ -4,7 +4,7 @@
             <li class="header-home"><a href="{{ path_for('home') }}">Home</a></li>
             <li class="header-account"><a href="{{ path_for('account',{'id' : accountName}) }}">Account</a></li>
             <li class="header-friends"><a class="modal-trigger" onclick="CheckFriendRequests();" href="#modal-friends">Friends</a></li>
-            <li class="header-projects"><a href="{{ path_for('projects') }}">Projects</a></li>
+            {#<li class="header-projects"><a href="{{ path_for('projects') }}">Projects</a></li>#}
             <li class="header-chat"><a href="{{ path_for('chat') }}">Chat</a></li>
             <li class="header-search"><a href="{{ path_for('search') }}">Search</a></li>
             <li><a href="{{ path_for('logout') }}">Logout</a></li>
