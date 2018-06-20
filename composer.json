@@ -6,7 +6,6 @@
         "slim/twig-view": "^2.4",
 		"twig/twig": "^2.0",
 		"slim/slim": "^3.0",
-        "mailgun/mailgun-php": "dev-master",
         "php-http/curl-client": "dev-master",
         "guzzlehttp/psr7": "^1.5@dev",
         "phpmailer/phpmailer": "dev-master"
