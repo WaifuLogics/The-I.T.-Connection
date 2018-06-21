@@ -23,7 +23,7 @@ function ValidateProjectForm() {
 
             /* Grab a substring from the value and check if it is a github url */
             let linkVal = link.value;
-            let substr = linkVal.substring(0, 18);
+            let substr = linkVal.substring(0, 19);
             if(substr == 'https://github.com/'){
                 CreateNewProject(title, link);
             }else{
