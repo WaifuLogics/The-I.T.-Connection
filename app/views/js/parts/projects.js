@@ -23,7 +23,7 @@ function ValidateProjectForm() {
 
             /* Grab a substring from the value and check if it is a github url */
             let linkVal = link.value;
-            let substr = linkVal.substring(0, 1);
+            let substr = linkVal.substring(0, 18);
             if(substr == 'https://github.com/'){
                 CreateNewProject(title, link);
             }else{
@@ -102,7 +102,7 @@ async function RetrieveProjects() {
                     </li>
                 `;
             }
-            
+
         }
     }
 }
@@ -111,9 +111,9 @@ async function DeleteProject(projectId){
     /* Check if the user owns the project that is requested to be deleted */
     let creator;
     try{
-        creator = GetId(projectId).getAttribute('data-creator'); 
+        creator = GetId(projectId).getAttribute('data-creator');
     }catch{
-        M.toast({html: "Could Not Delete Project,<br/>User Does Not Own This Project", displayLength: '1500', inDuration: '600', outDuration: '600'});        
+        M.toast({html: "Could Not Delete Project,<br/>User Does Not Own This Project", displayLength: '1500', inDuration: '600', outDuration: '600'});
         return;
     }
 
